@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "298546705448",
+    "firebase_url": "https://kickit-7821f.firebaseio.com",
+    "project_id": "kickit-7821f",
+    "storage_bucket": "kickit-7821f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:298546705448:android:449028da5eff9b3c",
+        "android_client_info": {
+          "package_name": "com.jae.kickit"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "298546705448-p8k1nnmao70bb5p89pnfq8orlhpusseo.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.jae.kickit",
+            "certificate_hash": "5e94312e3fb5146249d36432aa39b247dee11fae"
+          }
+        },
+        {
+          "client_id": "298546705448-cuntuookbdp02qko77j5agqjq26nt5uv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBtXdv8CM5klr-eXqJxzt6SZoxlL7jt41U"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "298546705448-cuntuookbdp02qko77j5agqjq26nt5uv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
