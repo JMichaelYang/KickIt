@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:kickit/screens/profile_screen.dart';
 import 'package:kickit/utils/values/internal_strings.dart';
 import 'package:kickit/utils/values/strings.dart';
 import 'package:kickit/utils/values/values.dart';
@@ -76,7 +77,11 @@ class _MainScreenState extends State<MainScreen> with ChangeNotifier {
       key: new ValueKey(InternalStrings.mainPageViewKey),
       controller: _pageController,
       onPageChanged: _onPageChanged,
-      children: <Widget>[],
+      children: <Widget>[
+        new Container(
+          child: new ProfileScreen(),
+        ),
+      ],
     );
   }
 

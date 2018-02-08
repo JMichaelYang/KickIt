@@ -15,6 +15,15 @@ class InternalStrings {
   static final String mainBottomBarFeedKey = "main_bottomBarFeed";
   static final String mainBottomBarProfileKey = "main_bottomBarProfile";
 
+  // Talk Screen
+  static final String talkScaffoldKey = "talk_scaffold";
+
+  // Feed Screen
+  static final String feedScaffoldKey = "feed_scaffold";
+
+  // Profile Screen
+  static final String profileScaffoldKey = "profile_scaffold";
+
   /// Private constructor so that an [InternalStrings] cannot be instantiated
   /// from the outside.
   InternalStrings._internal();
