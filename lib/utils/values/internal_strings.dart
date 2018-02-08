@@ -3,6 +3,7 @@ class InternalStrings {
   // Routes
   static final String splashScreenRoute = "/";
   static final String mainScreenRoute = "/main";
+  static final String settingsScreenRoute = "/settings";
 
   // Keys
 

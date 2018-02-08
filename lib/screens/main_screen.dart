@@ -20,7 +20,7 @@ class MainScreen extends StatefulWidget {
 }
 
 /// Manages the state of [MainScreen].
-class _MainScreenState extends State<MainScreen> with ChangeNotifier {
+class _MainScreenState extends State<MainScreen> {
   // A PageController to manage which screen is currently shown.
   PageController _pageController;
 
@@ -56,6 +56,7 @@ class _MainScreenState extends State<MainScreen> with ChangeNotifier {
     return new AppBar(
       // key: new ValueKey(InternalStrings.mainAppBarKey),
       centerTitle: true,
+      automaticallyImplyLeading: false, // Gets rid of back button
       title: new Text(
         Strings.title,
         style: Theme.of(context).textTheme.title,
@@ -66,7 +67,7 @@ class _MainScreenState extends State<MainScreen> with ChangeNotifier {
           icon: new Icon(Icons.settings),
           onPressed: () => Navigator
               .of(context)
-              .pushReplacementNamed(InternalStrings.mainScreenRoute),
+              .pushNamed(InternalStrings.settingsScreenRoute),
         ),
       ],
     );
@@ -127,7 +128,6 @@ class _MainScreenState extends State<MainScreen> with ChangeNotifier {
 
   /// Handles a page change and updates the bottom bar.
   void _onPageChanged(int page) {
-    this._pageController.notifyListeners();
     setState(() {
       this._page = page;
     });

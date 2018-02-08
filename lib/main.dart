@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kickit/data/injectors.dart';
 import 'package:kickit/screens/main_screen.dart';
+import 'package:kickit/screens/settings_screen.dart';
 import 'package:kickit/screens/splash_screen.dart';
 import 'package:kickit/utils/values/internal_strings.dart';
 import 'package:kickit/utils/values/strings.dart';
@@ -23,6 +24,8 @@ class MyApp extends StatelessWidget {
       routes: {
         InternalStrings.mainScreenRoute: (BuildContext context) =>
             new MainScreen(),
+        InternalStrings.settingsScreenRoute: (BuildContext context) =>
+            new SettingsScreen(),
       },
     );
   }
