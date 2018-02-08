@@ -30,7 +30,6 @@ class _SplashPageState extends State<StatefulWidget> {
         .then((_) => Authenticator.signInWithGoogle());
   }
 
-  /// Determines the layout of this [SplashScreen].
   @override
   Widget build(BuildContext context) {
     return new Scaffold(

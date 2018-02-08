@@ -1,6 +1,7 @@
 /// Internal strings for use within the app (not language)
 class InternalStrings {
   // Routes
+  static final String splashScreenRoute = "/";
   static final String mainScreenRoute = "/main";
 
   // Keys
@@ -23,6 +24,12 @@ class InternalStrings {
 
   // Profile Screen
   static final String profileScaffoldKey = "profile_scaffold";
+
+  // Settings Screen
+  static final String settingsScaffoldKey = "settings_scaffold";
+  static final String settingsAppBarKey = "settings_appBar";
+  static final String settingsBodyKey = "settings_body";
+  static final String settingsLogoutKey = "settings_logout";
 
   /// Private constructor so that an [InternalStrings] cannot be instantiated
   /// from the outside.

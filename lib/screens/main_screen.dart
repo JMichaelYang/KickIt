@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:kickit/screens/feed_screen.dart';
 import 'package:kickit/screens/profile_screen.dart';
+import 'package:kickit/screens/talk_screen.dart';
 import 'package:kickit/utils/values/internal_strings.dart';
 import 'package:kickit/utils/values/strings.dart';
 import 'package:kickit/utils/values/values.dart';
@@ -38,11 +40,10 @@ class _MainScreenState extends State<MainScreen> with ChangeNotifier {
     );
   }
 
-  /// Determines the layout of this [MainScreen].
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-      key: new ValueKey(InternalStrings.mainScaffoldKey),
+      // key: new ValueKey(InternalStrings.mainScaffoldKey),
       appBar: _appBar(),
       body: _mainScreens(),
       bottomNavigationBar: _bottomBar(),
@@ -53,7 +54,7 @@ class _MainScreenState extends State<MainScreen> with ChangeNotifier {
   /// by this [MainScreen]
   AppBar _appBar() {
     return new AppBar(
-      key: new ValueKey(InternalStrings.mainAppBarKey),
+      // key: new ValueKey(InternalStrings.mainAppBarKey),
       centerTitle: true,
       title: new Text(
         Strings.title,
@@ -74,10 +75,16 @@ class _MainScreenState extends State<MainScreen> with ChangeNotifier {
   /// Gets a [PageView] storing the screens controlled by this [MainScreen].
   PageView _mainScreens() {
     return new PageView(
-      key: new ValueKey(InternalStrings.mainPageViewKey),
+      // key: new ValueKey(InternalStrings.mainPageViewKey),
       controller: _pageController,
       onPageChanged: _onPageChanged,
       children: <Widget>[
+        new Container(
+          child: new TalkScreen(),
+        ),
+        new Container(
+          child: new FeedScreen(),
+        ),
         new Container(
           child: new ProfileScreen(),
         ),
@@ -89,7 +96,7 @@ class _MainScreenState extends State<MainScreen> with ChangeNotifier {
   /// controlled by this [MainScreen]
   BottomNavigationBar _bottomBar() {
     return new BottomNavigationBar(
-      key: new ValueKey(InternalStrings.mainBottomBarKey),
+      // key: new ValueKey(InternalStrings.mainBottomBarKey),
       items: [
         new BottomNavigationBarItem(
           icon: new Icon(Icons.people),

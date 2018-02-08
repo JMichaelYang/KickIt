@@ -7,6 +7,10 @@ class Strings {
   static final String mainBottomBarFeed = "feed";
   static final String mainBottomBarProfile = "profile";
 
+  // Settings Screen
+  static final String settingsTitle = "Settings";
+  static final String settingsLogout = "Logout";
+
   /// Private constructor so that a [Strings] cannot be instantiated from the
   /// outside.
   Strings._internal();
