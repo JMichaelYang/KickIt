@@ -2,17 +2,19 @@ import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:kickit/data/profile.dart';
 
 /// Manages the logging in and authentication of the app's main user using
 /// [FirebaseAuth] and [GoogleSignIn].
 class Authenticator {
-  // Singleton instance of this class.
-  static final Authenticator _singleton = new Authenticator._internal();
-
   // Objects with which to sign the user in.
-  static final FirebaseAuth _auth = FirebaseAuth.instance;
-  static FirebaseAuth get auth => _auth;
   static final GoogleSignIn _signIn = new GoogleSignIn();
+  static final FirebaseAuth _auth = FirebaseAuth.instance;
+  static Profile _profile;
+
+  static FirebaseAuth get auth => _auth;
+
+  static Profile get profile => _profile;
 
   /// Private constructor so that an [Authenticator] cannot be instantiated
   /// from the outside.
@@ -44,6 +46,9 @@ class Authenticator {
     // Ensure that the user exists and is not anonymous
     assert(user != null);
     assert(!user.isAnonymous);
+
+    // TODO: Check if user already exists
+    _profile = new Profile.fromGoogleSignIn(_signIn, user);
 
     return user;
   }

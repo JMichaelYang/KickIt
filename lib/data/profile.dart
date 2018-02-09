@@ -1,10 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
-/// An object that stores data about a user. A profile has the following
+/// An object that stores data about a user. A [Profile] has the following
 /// attributes:
-/// - a unique ID as given by GoogleSignIn
-/// - a display name
-/// - an image url for a profile image
+/// - a unique ID as given by Firebase
+/// - a display name as given by Google
+/// - an image url for a profile image as given by Google
 /// - a status or description (200 character max)
 class Profile {
   // Profile details
@@ -18,9 +19,10 @@ class Profile {
   Profile(this.uid, this.name, this.imageUrl, this._description);
 
   /// Creates a [Profile] from a [GoogleSignIn], setting the appropriate fields
-  /// with values from the sign in [g]
-  Profile.fromGoogleSignIn(GoogleSignIn g)
-      : uid = g.currentUser.id,
+  /// with values from the sign in [g]. The [uid] field must be taken from
+  /// a [FirebaseUser].
+  Profile.fromGoogleSignIn(GoogleSignIn g, FirebaseUser f)
+      : uid = f.uid,
         name = g.currentUser.displayName,
         imageUrl = g.currentUser.photoUrl {
     _description = "";
@@ -36,8 +38,6 @@ class Profile {
     }
   }
 
-  /// Gets the [String] representation of this [Profile]'s [_description].
-  String getDescription() {
-    return _description;
-  }
+  /// Getter for _description.
+  String get description => _description;
 }
