@@ -7,6 +7,11 @@ class InternalStrings {
 
   // Keys
 
+  // Splash Screen
+  static final String splashScaffoldKey = "splash_scaffold";
+  static final String splashImageKey = "splash_image";
+  static final String splashButtonKey = "splash_button";
+
   // Main Screen
   static final String mainScaffoldKey = "main_scaffold";
   static final String mainAppBarKey = "main_appBar";
