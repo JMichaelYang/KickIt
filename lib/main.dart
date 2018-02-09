@@ -9,6 +9,7 @@ import 'package:kickit/utils/values/strings.dart';
 void main() {
   // Set up the the correct loader source
   ProfileInjector.configure(Status.LOCAL);
+  PlanInjector.configure(Status.LOCAL);
   runApp(new MyApp());
 }
 
