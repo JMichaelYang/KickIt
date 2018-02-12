@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:kickit/data/profile.dart';
+import 'package:kickit/utils/remote.dart';
 
 /// Manages the logging in and authentication of the app's main user using
 /// [FirebaseAuth] and [GoogleSignIn].
@@ -39,7 +40,7 @@ class Authenticator {
 
     final GoogleSignInAuthentication auth = await current.authentication;
 
-    // Authenticate user with firebase
+    // Authenticate user with Firebase
     final FirebaseUser user = await _auth.signInWithGoogle(
         idToken: auth.idToken, accessToken: auth.accessToken);
 
@@ -47,8 +48,14 @@ class Authenticator {
     assert(user != null);
     assert(!user.isAnonymous);
 
-    // TODO: Check if user already exists
-    _profile = new Profile.fromGoogleSignIn(_signIn, user);
+    Profile profile = await Remote.getProfile(user.uid);
+
+    if(profile == null) {
+      _profile = new Profile.fromGoogleSignIn(_signIn, user);
+      Remote.saveProfile(_profile);
+    } else {
+      _profile = profile;
+    }
 
     return user;
   }

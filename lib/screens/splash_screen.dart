@@ -71,7 +71,7 @@ class _SplashPageState extends State<StatefulWidget> {
     );
   }
 
-  /// Gets the "Please wait..." indicator for this screen.
+  /// Gets the waiting indicator for this screen.
   Column _waitIndicator() {
     return new Column(
       mainAxisAlignment: MainAxisAlignment.center,

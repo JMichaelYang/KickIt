@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:kickit/data/storable.dart';
 
 /// An object that stores data about a user. A [Profile] has the following
 /// attributes:
@@ -7,12 +8,21 @@ import 'package:google_sign_in/google_sign_in.dart';
 /// - a display name as given by Google
 /// - an image url for a profile image as given by Google
 /// - a status or description (200 character max)
-class Profile {
+class Profile extends IStorable {
+  // Keys for storing in a map
+  static const String uidKey = "uid";
+  static const String nameKey = "name";
+  static const String imageUrlKey = "imageUrl";
+  static const String descriptionKey = "description";
+
   // Profile details
   final String uid;
   final String name;
   final String imageUrl;
   String _description;
+
+  // Empty profile
+  static final Profile empty = new Profile("", "", "", "");
 
   /// Creates a [Profile] with the provided values. This constructor should
   /// only be used for testing purposes (ie: creating test profiles).
@@ -28,10 +38,31 @@ class Profile {
     _description = "";
   }
 
+  /// Creates a [Profile] from a [Map], taking all of the data that the map
+  /// provides. The map must provide a value for every field.
+  @override
+  Profile fromMap(Map<String, dynamic> data) {
+    return new Profile(
+        data[uidKey], data[nameKey], data[imageUrlKey], data[descriptionKey]);
+  }
+
+  /// Converts this [Profile] into a [Map] that is storable in [Firestore].
+  @override
+  Map<String, dynamic> toMap() {
+    Map<String, dynamic> map = new Map<String, dynamic>();
+
+    map.putIfAbsent(uidKey, () => uid);
+    map.putIfAbsent(nameKey, () => name);
+    map.putIfAbsent(imageUrlKey, () => imageUrl);
+    map.putIfAbsent(descriptionKey, () => _description);
+
+    return map;
+  }
+
   /// Sets this [Profile]'s [_description] to [description], ensuring that the
   /// length of the description is less than or equal to 200 characters.
   void setDescription(String description) {
-    if(description.length > 200) {
+    if (description.length > 200) {
       _description = description.substring(0, 199);
     } else {
       _description = description;
