@@ -1,15 +1,15 @@
 /// Strings for use for text within the app.
 class Strings {
-  static final String title = "KickIt";
+  static const String title = "KickIt";
 
   // Main Screen
-  static final String mainBottomBarTalk = "talk";
-  static final String mainBottomBarFeed = "feed";
-  static final String mainBottomBarProfile = "profile";
+  static const String mainBottomBarTalk = "talk";
+  static const String mainBottomBarFeed = "feed";
+  static const String mainBottomBarProfile = "profile";
 
   // Settings Screen
-  static final String settingsTitle = "Settings";
-  static final String settingsLogout = "Logout";
+  static const String settingsTitle = "Settings";
+  static const String settingsLogout = "Logout";
 
   /// Private constructor so that a [Strings] cannot be instantiated from the
   /// outside.

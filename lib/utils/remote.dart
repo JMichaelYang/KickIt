@@ -5,6 +5,9 @@ import 'package:kickit/data/profile.dart';
 
 /// Handles the loading of data from the Firestore database.
 class Remote {
+  // Constants for database collection names.
+  static const String usersKey = "users";
+
   // Reference to the Firestore database.
   static final Firestore database = Firestore.instance;
 
@@ -16,7 +19,7 @@ class Remote {
   /// was found.
   static Future<Profile> getProfile(String id) async {
     DocumentSnapshot data =
-        await database.collection("users").document("id").get();
+        await database.collection(usersKey).document(id).get();
 
     // Return null if no Profile was found.
     if(data.data == null) {
@@ -28,6 +31,6 @@ class Remote {
 
   /// Saves a [Profile] to the Firebase database.
   static Future saveProfile(Profile profile) async {
-    database.collection("users").document("id").setData(profile.toMap());
+    database.collection(usersKey).document(profile.uid).setData(profile.toMap());
   }
 }
