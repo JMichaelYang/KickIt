@@ -41,6 +41,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       key: new ValueKey(InternalStrings.settingsBodyKey),
       children: <Widget>[
         _logout(),
+        _delete(),
       ],
     );
   }
@@ -61,6 +62,54 @@ class _SettingsScreenState extends State<SettingsScreen> {
             .of(context)
             .pushReplacementNamed(InternalStrings.splashScreenRoute);
       },
+    );
+  }
+
+  /// Gets the delete account button for this screen.
+  ListTile _delete() {
+    return new ListTile(
+      key: new ValueKey(InternalStrings.settingsDeleteKey),
+      title: new Text(
+        Strings.settingsDelete,
+        style: Theme.of(context).textTheme.button.copyWith(color: Colors.red),
+        textAlign: TextAlign.right,
+      ),
+      trailing: new Icon(Icons.delete),
+      onTap: () async {
+        showDialog(context: context, child: _deleteConfirmDialog())
+            .then((value) async {
+          if (value == true) {
+            await Authenticator.deleteAndSignOut();
+            Navigator
+                .of(context)
+                .pushReplacementNamed(InternalStrings.splashScreenRoute);
+          }
+        });
+      },
+    );
+  }
+
+  /// Gets the confirmation dialog for the delete account button.
+  AlertDialog _deleteConfirmDialog() {
+    return new AlertDialog(
+      key: new ValueKey(InternalStrings.settingsDeleteConfirmKey),
+      content: new Text(Strings.settingsConfirmDelete),
+      actions: <Widget>[
+        new FlatButton(
+          child: new Text(
+            Strings.ok,
+            style: Theme.of(context).textTheme.button,
+          ),
+          onPressed: () => Navigator.of(context).pop(true),
+        ),
+        new FlatButton(
+          child: new Text(
+            Strings.cancel,
+            style: Theme.of(context).textTheme.button,
+          ),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
+      ],
     );
   }
 }

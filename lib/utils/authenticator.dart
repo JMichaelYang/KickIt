@@ -52,7 +52,7 @@ class Authenticator {
 
     if(profile == null) {
       _profile = new Profile.fromGoogleSignIn(_signIn, user);
-      Remote.saveProfile(_profile);
+      await Remote.saveProfile(_profile);
     } else {
       _profile = profile;
     }
@@ -66,5 +66,11 @@ class Authenticator {
     await _auth.signOut();
     // Sign out of Google
     await _signIn.signOut();
+  }
+
+  /// Deletes the user's account and signs out.
+  static Future deleteAndSignOut() async {
+    await Remote.deleteProfile(_profile);
+    await signOutWithGoogle();
   }
 }

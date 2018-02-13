@@ -36,6 +36,8 @@ class InternalStrings {
   static const String settingsAppBarKey = "settings_appBar";
   static const String settingsBodyKey = "settings_body";
   static const String settingsLogoutKey = "settings_logout";
+  static const String settingsDeleteKey = "settings_delete";
+  static const String settingsDeleteConfirmKey = "settings_deleteConfirm";
 
   /// Private constructor so that an [InternalStrings] cannot be instantiated
   /// from the outside.

@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
     return new MaterialApp(
       title: Strings.title,
       theme: new ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.blueGrey,
       ),
       home: new SplashScreen(),
       routes: {
