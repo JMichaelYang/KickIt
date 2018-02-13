@@ -25,19 +25,24 @@ class Plan extends IStorable {
   DateTime _end;
 
   // Empty plan.
-  static final Plan empty = new Plan("", "");
+  static final Plan empty = new Plan("", "Empty");
 
   /// Creates a [Plan] with the provided values. The optional parameters will
   /// all default to and empty string or null.
-  Plan(this.id, this._title,
+  Plan(this.id, String title,
       {String description: "",
       String location: "",
       DateTime start,
       DateTime end}) {
-    _description = description;
-    _location = location;
-    _start = start;
-    _end = end;
+    this.title = title;
+    this.description = description;
+    this.location = location;
+    this.start = start;
+    this.end = end;
+
+    if (this.id == null) {
+      throw new ArgumentError("A Plan's ID cannot be null.");
+    }
   }
 
   /// Creates a [Profile] from a [Map], taking all of the data that the map
@@ -49,8 +54,8 @@ class Plan extends IStorable {
         location: data[locationKey],
         start: new DateTime.fromMillisecondsSinceEpoch(data[startKey],
             isUtc: true),
-        end: new DateTime.fromMillisecondsSinceEpoch(data[endKey],
-            isUtc: true));
+        end:
+            new DateTime.fromMillisecondsSinceEpoch(data[endKey], isUtc: true));
   }
 
   /// Converts this [Profile] into a [Map] that is storable in [Firestore].
@@ -72,9 +77,11 @@ class Plan extends IStorable {
   /// title is less than or equal to 50 characters.
   set title(String title) {
     if (title == null) {
-      title = "";
+      throw new ArgumentError("A Plan's title cannot be null");
     } else if (title.length > 50) {
       _title = title.substring(0, 50);
+    } else if (title.length < 4) {
+      throw new ArgumentError("A Plan's title must be at least 4 characters");
     } else {
       _title = title;
     }

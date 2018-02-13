@@ -22,11 +22,30 @@ class Profile extends IStorable {
   String _description;
 
   // Empty profile
-  static final Profile empty = new Profile("", "", "", "");
+  static final Profile empty = new Profile("", "Empty", "");
 
   /// Creates a [Profile] with the provided values. This constructor should
   /// only be used for testing purposes (ie: creating test profiles).
-  Profile(this.uid, this.name, this.imageUrl, this._description);
+  Profile(this.uid, this.name, this.imageUrl, {String description = ""}) {
+    this._description = description;
+
+    // Checks for invalid final fields.
+
+    if (this.uid == null) {
+      throw new ArgumentError("Cannot have a Profile with a null UID.");
+    }
+
+    if (this.name == null) {
+      throw new ArgumentError("Cannot have a Profile with a null name.");
+    } else if (this.name.length < 4) {
+      throw new ArgumentError(
+          "Cannot have a Profile with a name less than 4 characters.");
+    }
+
+    if(this.imageUrl == null) {
+      throw new ArgumentError("A Profile's image url cannot be null");
+    }
+  }
 
   /// Creates a [Profile] from a [GoogleSignIn], setting the appropriate fields
   /// with values from the sign in [g]. The [uid] field must be taken from
@@ -42,8 +61,8 @@ class Profile extends IStorable {
   /// provides. The map must provide a value for every field.
   @override
   Profile fromMap(Map<String, dynamic> data) {
-    return new Profile(
-        data[uidKey], data[nameKey], data[imageUrlKey], data[descriptionKey]);
+    return new Profile(data[uidKey], data[nameKey], data[imageUrlKey],
+        description: data[descriptionKey]);
   }
 
   /// Converts this [Profile] into a [Map] that is storable in [Firestore].
@@ -61,8 +80,10 @@ class Profile extends IStorable {
 
   /// Sets this [Profile]'s [_description] to [description], ensuring that the
   /// length of the description is less than or equal to 200 characters.
-  void setDescription(String description) {
-    if (description.length > 200) {
+  set description(String description) {
+    if (description == null) {
+      _description = "";
+    } else if (description.length > 200) {
       _description = description.substring(0, 199);
     } else {
       _description = description;

@@ -12,9 +12,11 @@ class TestProfiles implements ILoader<Profile> {
     return new Future.value(testProfiles);
   }
 
-  static Profile test1 = new Profile("_", "Jaewon Yang", "_", "Test profile 1");
-  static Profile test2 = new Profile("_", "Matt Urrea", "_", "Test profile 2");
+  static Profile test1 =
+      new Profile("_", "Jaewon Yang", "_", description: "Test profile 1");
+  static Profile test2 =
+      new Profile("_", "Matt Urrea", "_", description: "Test profile 2");
   static Profile test3 =
-      new Profile("_", "Woo Sek Chung", "_", "Test profile 3");
+      new Profile("_", "Woo Sek Chung", "_", description: "Test profile 3");
   static List<Profile> testProfiles = [test1, test2, test3];
 }
