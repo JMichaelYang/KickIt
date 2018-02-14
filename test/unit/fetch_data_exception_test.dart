@@ -1,4 +1,4 @@
-import 'package:kickit/data/loader.dart';
+import 'package:kickit/data/loaders/loader.dart';
 import 'package:test/test.dart';
 
 void main() {

@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:kickit/data/loader.dart';
+import 'package:kickit/data/loaders/loader.dart';
 import 'package:kickit/data/plan.dart';
 
 /// Provides test [Plan]s with which to test classes that use an [ILoader] in

@@ -50,7 +50,7 @@ class Authenticator {
 
     Profile profile = await Remote.getProfile(user.uid);
 
-    if(profile == null) {
+    if (profile == null) {
       _profile = new Profile.fromGoogleSignIn(_signIn, user);
       await Remote.saveProfile(_profile);
     } else {

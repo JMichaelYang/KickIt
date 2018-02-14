@@ -1,8 +1,8 @@
-import 'package:kickit/data/loader.dart';
+import 'package:kickit/data/loaders/loader.dart';
+import 'package:kickit/data/loaders/test_data/test_plans.dart';
+import 'package:kickit/data/loaders/test_data/test_profiles.dart';
 import 'package:kickit/data/plan.dart';
 import 'package:kickit/data/profile.dart';
-import 'package:kickit/data/test_data/test_plans.dart';
-import 'package:kickit/data/test_data/test_profiles.dart';
 
 /// Represents the two sources where data could be loaded from.
 /// - [LOCAL] represents local data (usually for tests).
@@ -76,7 +76,7 @@ class PlanInjector {
       case Status.LOCAL:
         return new TestPlans();
       case Status.REMOTE:
-      // TODO: Implement remote repository
+        // TODO: Implement remote repository
         throw new StateError("Remote loader not implemented yet.");
       default:
         throw new StateError("Loader source not yet specified, be sure to " +
