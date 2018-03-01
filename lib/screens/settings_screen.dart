@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:kickit/utils/authenticator.dart';
 import 'package:kickit/utils/values/internal_strings.dart';
+import 'package:kickit/utils/values/keys.dart';
 import 'package:kickit/utils/values/strings.dart';
 
 /// Screen that display's the public plans that this user can view.
@@ -17,7 +18,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-      key: new ValueKey(InternalStrings.settingsScaffoldKey),
+      key: Keys.settingsScaffoldKey,
       appBar: _appBar(),
       body: _body(),
     );
@@ -26,7 +27,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   /// Gets the [AppBar] to use for this screen.
   AppBar _appBar() {
     return new AppBar(
-      key: new ValueKey(InternalStrings.settingsAppBarKey),
+      key: Keys.settingsAppBarKey,
       centerTitle: true,
       title: new Text(
         Strings.settingsTitle,
@@ -38,7 +39,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   /// Gets the [ListView] to use as this screen's body.
   ListView _body() {
     return new ListView(
-      key: new ValueKey(InternalStrings.settingsBodyKey),
+      key: Keys.settingsBodyKey,
       children: <Widget>[
         _logout(),
         _delete(),
@@ -49,7 +50,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   /// Gets the logout button for this screen.
   ListTile _logout() {
     return new ListTile(
-      key: new ValueKey(InternalStrings.settingsLogoutKey),
+      key: Keys.settingsLogoutKey,
       title: new Text(
         Strings.settingsLogout,
         style: Theme.of(context).textTheme.button,
@@ -68,7 +69,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   /// Gets the delete account button for this screen.
   ListTile _delete() {
     return new ListTile(
-      key: new ValueKey(InternalStrings.settingsDeleteKey),
+      key: Keys.settingsDeleteKey,
       title: new Text(
         Strings.settingsDelete,
         style: Theme.of(context).textTheme.button.copyWith(color: Colors.red),
@@ -92,7 +93,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   /// Gets the confirmation dialog for the delete account button.
   AlertDialog _deleteConfirmDialog() {
     return new AlertDialog(
-      key: new ValueKey(InternalStrings.settingsDeleteConfirmKey),
+    key: Keys.settingsDeleteConfirmKey,
       content: new Text(Strings.settingsConfirmDelete),
       actions: <Widget>[
         new FlatButton(

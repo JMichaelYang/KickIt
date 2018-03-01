@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:kickit/utils/authenticator.dart';
 import 'package:kickit/utils/values/asset_paths.dart';
-import 'package:kickit/utils/values/internal_strings.dart';
+import 'package:kickit/utils/values/keys.dart';
 
 /// Creates a landing screen where the user is signed in with [Authenticator],
 /// should proceed after the user is signed in.
@@ -32,8 +32,9 @@ class _SplashPageState extends State<StatefulWidget> {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-      key: new ValueKey(InternalStrings.splashScaffoldKey),
+      key: Keys.splashScaffoldKey,
       body: new Container(
+        key: Keys.splashImageKey,
         decoration: _background(),
         child: _loginStatus(),
       ),
@@ -63,7 +64,7 @@ class _SplashPageState extends State<StatefulWidget> {
   Center _loginButton() {
     return new Center(
       child: new FlatButton(
-        key: new ValueKey(InternalStrings.splashButtonKey),
+        key: Keys.splashButtonKey,
         onPressed: _signIn,
         padding: const EdgeInsets.all(0.0),
         child: new Image.asset(AssetPaths.splashSignin),
