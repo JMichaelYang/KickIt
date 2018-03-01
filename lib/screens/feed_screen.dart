@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:kickit/data/injectors.dart';
 import 'package:kickit/data/plan.dart';
-import 'package:kickit/utils/values/internal_strings.dart';
+import 'package:kickit/utils/values/keys.dart';
 import 'package:kickit/utils/values/strings.dart';
 
 /// Screen that display's the public plans that this user can view.
@@ -18,7 +18,7 @@ class _FeedScreenState extends State<FeedScreen> {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-      key: new ValueKey(InternalStrings.feedScaffoldKey),
+      key: Keys.feedScaffoldKey,
       body: _feed(),
     );
   }
@@ -28,7 +28,7 @@ class _FeedScreenState extends State<FeedScreen> {
   /// TODO: Implement search and other filters.
   Widget _feed() {
     return new StreamBuilder(
-      key: new ValueKey(InternalStrings.feedListKey),
+      key: Keys.feedListKey,
       stream: new PlanInjector().planLoader.getStream(),
       builder: (BuildContext context, AsyncSnapshot<Plan> snapshot) {
         // If the Stream has an error, show a text widget that has the error.
