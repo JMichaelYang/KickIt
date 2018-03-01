@@ -20,6 +20,8 @@ class Keys {
   // Feed Screen
   static final Key feedScaffoldKey = const Key("feed_scaffold");
   static final Key feedListKey = const Key("feed_list");
+  static final Function(String) feedPlanItemKey =
+      (String id) => new Key("feed_planItem$id");
 
   // Profile Screen
   static final Key profileScaffoldKey = const Key("profile_scaffold");

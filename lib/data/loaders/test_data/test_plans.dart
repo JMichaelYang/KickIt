@@ -56,11 +56,13 @@ class TestPlans implements ILoader<Plan> {
 
   static Plan test1 = new Plan(
     "_",
+    "_",
     "Steast",
     description: "dinner",
     location: "Steast",
   );
   static Plan test2 = new Plan(
+    "_",
     "_",
     "Whole Foods",
     description: "groceries",
@@ -68,6 +70,7 @@ class TestPlans implements ILoader<Plan> {
     start: new DateTime.utc(2018, 4, 20),
   );
   static Plan test3 = new Plan(
+    "_",
     "_",
     "Breakfast",
     description: "getting breakfast",

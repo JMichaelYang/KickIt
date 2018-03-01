@@ -10,6 +10,7 @@ import 'package:kickit/data/storable.dart';
 class Plan extends IStorable {
   // Keys for storing data in a map.
   static const String idKey = "id";
+  static const String ownerIdKey = "ownerId";
   static const String titleKey = "title";
   static const String descriptionKey = "description";
   static const String locationKey = "location";
@@ -18,6 +19,7 @@ class Plan extends IStorable {
 
   // Plan details.
   final String id;
+  final String ownerId;
   String _title;
   String _description;
   String _location;
@@ -25,11 +27,11 @@ class Plan extends IStorable {
   DateTime _end;
 
   // Empty plan.
-  static final Plan empty = new Plan("", "Empty");
+  static final Plan empty = new Plan("", "", "Empty");
 
   /// Creates a [Plan] with the provided values. The optional parameters will
   /// all default to and empty string or null.
-  Plan(this.id, String title,
+  Plan(this.id, this.ownerId, String title,
       {String description: "",
       String location: "",
       DateTime start,
@@ -43,13 +45,16 @@ class Plan extends IStorable {
     if (this.id == null) {
       throw new ArgumentError("A Plan's ID cannot be null.");
     }
+    if (this.ownerId == null) {
+      throw new ArgumentError("A Plan's owner ID cannot be null.");
+    }
   }
 
   /// Creates a [Profile] from a [Map], taking all of the data that the map
   /// provides. The map must provide a value for every field.
   @override
   Plan fromMap(Map<String, dynamic> data) {
-    return new Plan(data[idKey], data[titleKey],
+    return new Plan(data[idKey], data[ownerId], data[titleKey],
         description: data[descriptionKey],
         location: data[locationKey],
         start: new DateTime.fromMillisecondsSinceEpoch(data[startKey],
@@ -64,6 +69,7 @@ class Plan extends IStorable {
     Map<String, dynamic> map = new Map<String, dynamic>();
 
     map.putIfAbsent(idKey, () => id);
+    map.putIfAbsent(ownerIdKey, () => ownerId);
     map.putIfAbsent(titleKey, () => _title);
     map.putIfAbsent(descriptionKey, () => _description);
     map.putIfAbsent(locationKey, () => _location);
