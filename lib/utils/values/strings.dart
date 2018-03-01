@@ -16,6 +16,10 @@ class Strings {
   static const String settingsConfirmDelete = "Are you sure you want to " +
       "delete your account? This cannot be undone.";
 
+  // Feed Screen
+  static const String feedNone = "No plans to display.";
+  static const String feedClosed = "Plan loading error: Stream closed.";
+
   /// Private constructor so that a [Strings] cannot be instantiated from the
   /// outside.
   Strings._internal();

@@ -27,6 +27,7 @@ class InternalStrings {
 
   // Feed Screen
   static const String feedScaffoldKey = "feed_scaffold";
+  static const String feedListKey = "feed_list";
 
   // Profile Screen
   static final String profileScaffoldKey = "profile_scaffold";

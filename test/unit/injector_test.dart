@@ -1,5 +1,5 @@
 import 'package:kickit/data/injectors.dart';
-import 'package:kickit/data/test_data/test_profiles.dart';
+import 'package:kickit/data/loaders/test_data/test_profiles.dart';
 import 'package:test/test.dart';
 
 void main() {
