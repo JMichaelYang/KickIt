@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:kickit/data/profile.dart';
+import 'package:kickit/models/profile.dart';
 
 /// Handles the loading of data from the Firestore database.
 class Remote {

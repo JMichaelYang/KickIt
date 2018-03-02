@@ -1,12 +1,13 @@
-import 'package:kickit/data/plan.dart';
+import 'package:kickit/models/plan.dart';
 import 'package:test/test.dart';
 
 /// Tests for the [Plan] class.
 void main() {
   test("Plan Default Constructor Test", () {
     // Test Plan constructor with no optional parameters.
-    Plan plan = new Plan("_", "Title");
+    Plan plan = new Plan("_", "_", "Title");
     expect(plan.id, "_");
+    expect(plan.ownerId, "_");
     expect(plan.title, "Title");
     // Add values for optional parameters.
     plan.description = "Desc";
@@ -20,13 +21,14 @@ void main() {
   });
 
   test("Plan Mapping Test", () {
-    Plan plan = new Plan("_", "Title",
+    Plan plan = new Plan("_", "_", "Title",
         description: "Desc",
         location: "Loc",
         start: new DateTime.utc(2018),
         end: new DateTime.utc(2019));
     Map<String, dynamic> map = plan.toMap();
     expect(map[Plan.idKey], "_");
+    expect(map[Plan.ownerIdKey], "_");
     expect(map[Plan.titleKey], "Title");
     expect(map[Plan.descriptionKey], "Desc");
     expect(map[Plan.locationKey], "Loc");
@@ -35,6 +37,7 @@ void main() {
 
     Plan newPlan = Plan.empty.fromMap(map);
     expect(newPlan.id, "_");
+    expect(newPlan.ownerId, "_");
     expect(newPlan.title, "Title");
     expect(newPlan.description, "Desc");
     expect(newPlan.location, "Loc");
@@ -43,14 +46,16 @@ void main() {
   });
 
   test("Plan Invalid Args", () {
-    expect(() => new Plan(null, "Title"),
+    expect(() => new Plan(null, "_", "Title"),
         throwsA(new isInstanceOf<ArgumentError>()));
-    expect(() => new Plan("_____", null),
+    expect(() => new Plan("_____", null, "Title"),
         throwsA(new isInstanceOf<ArgumentError>()));
-    expect(() => new Plan("___", "abc"),
+    expect(() => new Plan("_____", "_", null),
+        throwsA(new isInstanceOf<ArgumentError>()));
+    expect(() => new Plan("___", "_", "abc"),
         throwsA(new isInstanceOf<ArgumentError>()));
     expect(
-        () => new Plan("_", "Title",
+        () => new Plan("_", "_", "Title",
             start: new DateTime.utc(2018), end: new DateTime.utc(2017)),
         throwsA(new isInstanceOf<ArgumentError>()));
   });

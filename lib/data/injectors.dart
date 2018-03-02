@@ -1,8 +1,8 @@
 import 'package:kickit/data/loaders/loader.dart';
 import 'package:kickit/data/loaders/test_data/test_plans.dart';
 import 'package:kickit/data/loaders/test_data/test_profiles.dart';
-import 'package:kickit/data/plan.dart';
-import 'package:kickit/data/profile.dart';
+import 'package:kickit/models/plan.dart';
+import 'package:kickit/models/profile.dart';
 
 /// Represents the two sources where data could be loaded from.
 /// - [LOCAL] represents local data (usually for tests).

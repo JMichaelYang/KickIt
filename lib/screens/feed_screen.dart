@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:kickit/data/injectors.dart';
-import 'package:kickit/data/plan.dart';
+import 'package:kickit/models/plan.dart';
 import 'package:kickit/utils/values/keys.dart';
 import 'package:kickit/utils/values/strings.dart';
 

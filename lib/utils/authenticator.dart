@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:kickit/data/profile.dart';
+import 'package:kickit/models/profile.dart';
 import 'package:kickit/utils/remote.dart';
 
 /// Manages the logging in and authentication of the app's main user using

@@ -1,10 +1,8 @@
 import 'dart:async';
 
-import 'package:kickit/data/storable.dart';
-
 /// An object that handles the asynchronous loading of data. The generic
 /// parameter represents the type of the object that is to be loaded and stored.
-abstract class ILoader<T extends IStorable> {
+abstract class ILoader<T> {
   /// Gets the stream for the data that this loader is set up to fetch. Returns
   /// the stream of data.
   Stream<T> getStream();

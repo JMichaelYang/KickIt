@@ -1,4 +1,4 @@
-import 'package:kickit/data/profile.dart';
+import 'package:kickit/models/profile.dart';
 import 'package:test/test.dart';
 
 /// Tests for the [Profile] class.
