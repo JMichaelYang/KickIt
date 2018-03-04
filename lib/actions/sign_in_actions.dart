@@ -10,6 +10,8 @@ class SignedInAction {
 
 class FailedSignInAction {}
 
+class ConfirmSignInFailedAction {}
+
 class SignOutAction {}
 
 class SignOutAndDeleteAction {}
