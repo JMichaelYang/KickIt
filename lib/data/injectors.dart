@@ -1,6 +1,6 @@
-import 'package:kickit/data/loaders/loader.dart';
-import 'package:kickit/data/loaders/test_data/test_plans.dart';
-import 'package:kickit/data/loaders/test_data/test_profiles.dart';
+import 'package:kickit/data/plan_store.dart';
+import 'package:kickit/data/profile_store.dart';
+import 'package:kickit/data/sign_in.dart';
 import 'package:kickit/models/plan.dart';
 import 'package:kickit/models/profile.dart';
 
@@ -9,8 +9,43 @@ import 'package:kickit/models/profile.dart';
 /// - [REMOTE] represents remote data (usually from a database).
 enum Status { LOCAL, REMOTE }
 
-/// A dependency injector that provides a data source for [Profile] data for an
-/// [ILoader] that handles [Profile]s.
+/// A dependency injector that provides a data source for log in data.
+class SignInInjector {
+  // The singleton instance that will load the correct source.
+  static final SignInInjector _singleton = new SignInInjector._internal();
+  static Status _status;
+
+  /// Sets up the [SignInInjector] to use the specified source of data,
+  /// determined by [status].
+  static void configure(Status status) {
+    _status = status;
+  }
+
+  /// Factory method that returns the [_singleton] for the [SignInInjector].
+  factory SignInInjector() {
+    return _singleton;
+  }
+
+  /// Private constructor so that a [SignInInjector] cannot be instantiated
+  /// from the outside.
+  SignInInjector._internal();
+
+  /// Gets the correct type of [ISignIn] based on [_status].  Throws a
+  /// [StateError] if [_status] has not been set.
+  ISignIn get signIn {
+    switch (_status) {
+      case Status.LOCAL:
+        return new MockSignIn();
+      case Status.REMOTE:
+        return new SignIn();
+      default:
+        throw new StateError("Loader source not yet specified, be sure to " +
+            "call configure before getting a signInLoader.");
+    }
+  }
+}
+
+/// A dependency injector that provides a data source for [Profile] data.
 class ProfileInjector {
   // The singleton instance that will load the correct source.
   static final ProfileInjector _singleton = new ProfileInjector._internal();
@@ -31,15 +66,14 @@ class ProfileInjector {
   /// from the outside.
   ProfileInjector._internal();
 
-  /// Gets the correct type of [ILoader] based on [_status].  Throws a
+  /// Gets the correct type of [IProfileStore] based on [_status].  Throws a
   /// [StateError] if [_status] has not been set.
-  ILoader<Profile> get profileLoader {
+  IProfileStore get profileLoader {
     switch (_status) {
       case Status.LOCAL:
-        return new TestProfiles();
+        return new MockProfileStore();
       case Status.REMOTE:
-        // TODO: Implement remote repository
-        throw new StateError("Remote loader not implemented yet.");
+        return new ProfileStore();
       default:
         throw new StateError("Loader source not yet specified, be sure to " +
             "call configure before getting a profileLoader.");
@@ -47,8 +81,7 @@ class ProfileInjector {
   }
 }
 
-/// A dependency injector that provides a data source for [Plan] data for an
-/// [ILoader] that handles [Plan]s.
+/// A dependency injector that provides a data source for [Plan] data.
 class PlanInjector {
   // The singleton instance that will load the correct source.
   static final PlanInjector _singleton = new PlanInjector._internal();
@@ -69,15 +102,14 @@ class PlanInjector {
   /// from the outside.
   PlanInjector._internal();
 
-  /// Gets the correct type of [ILoader] based on [_status].  Throws a
+  /// Gets the correct type of [IPlanStore] based on [_status].  Throws a
   /// [StateError] if [_status] has not been set.
-  ILoader<Plan> get planLoader {
+  IPlanStore get planLoader {
     switch (_status) {
       case Status.LOCAL:
-        return new TestPlans();
+        return new MockPlanStore();
       case Status.REMOTE:
-        // TODO: Implement remote repository
-        throw new StateError("Remote loader not implemented yet.");
+        return new PlanStore();
       default:
         throw new StateError("Loader source not yet specified, be sure to " +
             "call configure before getting a planLoader.");

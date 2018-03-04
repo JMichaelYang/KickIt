@@ -4,6 +4,27 @@
 /// - [name] => a display name as given by Google
 /// - [imageUrl] => an image url for a profile image as given by Google
 /// - [description] => a status or description (200 character max)
+
+import 'package:kickit/database/profile_package.dart';
+
+/// fields:
+/// - [uid] => a unique ID as given by Firebase
+/// - [name] => a display name as given by Google
+/// - [imageUrl] => an image url for a profile image as given by Google
+/// - [description] => a status or description (200 character max)
+
+/// fields:
+/// - [uid] => a unique ID as given by Firebase
+/// - [name] => a display name as given by Google
+/// - [imageUrl] => an image url for a profile image as given by Google
+/// - [description] => a status or description (200 character max)
+
+/// fields:
+/// - [uid] => a unique ID as given by Firebase
+/// - [name] => a display name as given by Google
+/// - [imageUrl] => an image url for a profile image as given by Google
+/// - [description] => a status or description (200 character max)
+
 class Profile {
   // Profile details.
   final String uid;
@@ -35,6 +56,18 @@ class Profile {
     return new Profile(this.uid, name ?? this.name,
         imageUrl: imageUrl ?? this.imageUrl,
         description: description ?? this.description);
+  }
+
+  /// Creates a [Profile] from the given [ProfilePackage].
+  Profile.fromPackage(ProfilePackage package)
+      : uid = package.uid,
+        name = package.name,
+        imageUrl = package.imageUrl,
+        description = package.description;
+
+  /// Converts this [Profile] into a [ProfilePackage].
+  ProfilePackage toPackage() {
+    return new ProfilePackage(uid, name, imageUrl, description);
   }
 
   /// Gets a hash code for this [Profile].
