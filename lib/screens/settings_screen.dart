@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:kickit/utils/authenticator.dart';
-import 'package:kickit/utils/values/internal_strings.dart';
 import 'package:kickit/utils/values/keys.dart';
-import 'package:kickit/utils/values/strings.dart';
 
 /// Screen that display's the public plans that this user can view.
 class SettingsScreen extends StatefulWidget {
@@ -15,6 +12,13 @@ class SettingsScreen extends StatefulWidget {
 
 /// Handles the state for a [TalkScreen].
 class _SettingsScreenState extends State<SettingsScreen> {
+  @override
+  Widget build(BuildContext context) {
+    return new Scaffold(
+      key: Keys.settingsScaffoldKey,
+    );
+  }
+/*
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -112,5 +116,5 @@ class _SettingsScreenState extends State<SettingsScreen> {
         ),
       ],
     );
-  }
+  }*/
 }

@@ -1,33 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:kickit/utils/authenticator.dart';
+import 'package:kickit/models/app_state.dart';
 import 'package:kickit/utils/values/asset_paths.dart';
 import 'package:kickit/utils/values/keys.dart';
+import 'package:meta/meta.dart';
 
-/// Creates a landing screen where the user is signed in with [Authenticator],
-/// should proceed after the user is signed in.
-class SplashScreen extends StatefulWidget {
-  @override
-  State<StatefulWidget> createState() {
-    return new _SplashPageState();
-  }
-}
+/// Creates a landing screen where the user is signed in, the proceeds to the
+/// main app. Also serves as a landing screen after the user is logged out.
+class SplashScreen extends StatelessWidget {
+  final Function onSignIn;
+  final SignInState state;
 
-/// Manages the state of the [SplashScreen].
-class _SplashPageState extends State<StatefulWidget> {
-  // Keeps track of whether we are currently signing in.
-  bool _signingIn = false;
-
-  /// Signs the user in using [GoogleSignIn] and [Authenticator].
-  void _signIn() {
-    // Create a listener for the auth event and continue when done.
-    Authenticator.auth.onAuthStateChanged
-        .firstWhere((user) => user != null)
-        .then((user) => Navigator.of(context).pushReplacementNamed("/main"));
-
-    Authenticator.signInWithGoogle();
-    setState(() => _signingIn = true);
-  }
+  SplashScreen({Key key, @required this.onSignIn, @required this.state})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -53,27 +38,37 @@ class _SplashPageState extends State<StatefulWidget> {
   /// Gets the widget that should currently be displayed depending on whether
   /// the user is currently logging in based on [_signingIn].
   Widget _loginStatus() {
-    if (_signingIn) {
-      return _waitIndicator();
-    } else {
-      return _loginButton();
+    return new Center(child: _displayElement());
+  }
+
+  /// Gets the correct element to display based on the current [state].
+  Widget _displayElement() {
+    switch (state) {
+      case SignInState.NOT_SIGNED_IN:
+        return _loginButton();
+      case SignInState.SIGNING_IN:
+        return _waitIndicator();
+      case SignInState.FAILED:
+        return _loginButton();
+      case SignInState.SIGNED_IN:
+        return _waitIndicator();
+      default:
+        throw new StateError("Could not find a login state.");
     }
   }
 
   /// Gets the login button for this screen.
-  Center _loginButton() {
-    return new Center(
-      child: new FlatButton(
-        key: Keys.splashButtonKey,
-        onPressed: _signIn,
-        padding: const EdgeInsets.all(0.0),
-        child: new Image.asset(AssetPaths.splashSignin),
-      ),
+  Widget _loginButton() {
+    return new FlatButton(
+      key: Keys.splashButtonKey,
+      onPressed: onSignIn,
+      padding: const EdgeInsets.all(0.0),
+      child: new Image.asset(AssetPaths.splashSignin),
     );
   }
 
   /// Gets the waiting indicator for this screen.
-  Column _waitIndicator() {
+  Widget _waitIndicator() {
     return new Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
