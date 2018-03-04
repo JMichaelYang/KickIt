@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:kickit/models/app_state.dart';
 import 'package:kickit/utils/values/asset_paths.dart';
+import 'package:kickit/utils/values/internal_strings.dart';
 import 'package:kickit/utils/values/keys.dart';
 import 'package:meta/meta.dart';
 
@@ -21,7 +22,7 @@ class SplashScreen extends StatelessWidget {
       body: new Container(
         key: Keys.splashImageKey,
         decoration: _background(),
-        child: _loginStatus(),
+        child: _loginStatus(context),
       ),
     );
   }
@@ -37,19 +38,19 @@ class SplashScreen extends StatelessWidget {
 
   /// Gets the widget that should currently be displayed depending on whether
   /// the user is currently logging in based on [_signingIn].
-  Widget _loginStatus() {
-    return new Center(child: _displayElement());
+  Widget _loginStatus(BuildContext context) {
+    return new Center(child: _displayElement(context));
   }
 
   /// Gets the correct element to display based on the current [state].
-  Widget _displayElement() {
+  Widget _displayElement(BuildContext context) {
     switch (state) {
       case SignInState.NOT_SIGNED_IN:
         return _loginButton();
       case SignInState.SIGNING_IN:
         return _waitIndicator();
       case SignInState.FAILED:
-        return _loginButton();
+        return _loginButton(); // TODO: Notify the user of failed sign in.
       case SignInState.SIGNED_IN:
         return _waitIndicator();
       default:

@@ -3,6 +3,8 @@ import 'package:kickit/data/injectors.dart';
 import 'package:kickit/data/sign_in.dart';
 import 'package:kickit/models/app_state.dart';
 import 'package:kickit/models/profile.dart';
+import 'package:kickit/utils/values/internal_strings.dart';
+import 'package:kickit/utils/values/keys.dart';
 import 'package:redux/redux.dart';
 
 /// Creates all the [Middleware] associated with signing the user in and out.
@@ -34,6 +36,8 @@ Middleware<AppState> _createSignIn(ISignIn signIn) {
             new Profile.fromPackage(user),
           ),
         );
+        Keys.navigatorKey.currentState
+            .pushReplacementNamed(InternalStrings.mainScreenRoute);
       },
     ).catchError((_) => store.dispatch(new FailedSignInAction()));
 
@@ -47,6 +51,8 @@ Middleware<AppState> _createSignOut(ISignIn signIn) {
     signIn.signOut().then(
       (_) {
         store.dispatch(new SignedOutAction());
+        Keys.navigatorKey.currentState
+            .pushReplacementNamed(InternalStrings.splashScreenRoute);
       },
     );
 
@@ -60,6 +66,8 @@ Middleware<AppState> _createSignOutAndDelete(ISignIn signIn) {
     signIn.signOutAndDelete(store.state.profile.uid).then(
       (_) {
         store.dispatch(new SignedOutAction());
+        Keys.navigatorKey.currentState
+            .pushReplacementNamed(InternalStrings.splashScreenRoute);
       },
     );
 

@@ -6,9 +6,9 @@ import 'package:kickit/models/app_state.dart';
 import 'package:kickit/reducers/app_state_reducer.dart';
 import 'package:kickit/screens/main_screen.dart';
 import 'package:kickit/screens/settings_screen.dart';
-import 'package:kickit/screens/splash_screen/splash_screen.dart';
 import 'package:kickit/screens/splash_screen/splash_screen_container.dart';
 import 'package:kickit/utils/values/internal_strings.dart';
+import 'package:kickit/utils/values/keys.dart';
 import 'package:kickit/utils/values/strings.dart';
 import 'package:redux/redux.dart';
 
@@ -32,6 +32,7 @@ class MyApp extends StatelessWidget {
     return new StoreProvider(
       store: store,
       child: new MaterialApp(
+        navigatorKey: Keys.navigatorKey,
         title: Strings.title,
         theme: new ThemeData(
           primarySwatch: Colors.blueGrey,

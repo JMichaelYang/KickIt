@@ -2,6 +2,10 @@ import 'package:flutter/widgets.dart';
 
 /// Stores the keys to be used for referencing widgets in tests.
 class Keys {
+  /// Key with which to access the navigator from the outside.
+  static final GlobalKey<NavigatorState> navigatorKey =
+      new GlobalKey<NavigatorState>();
+
   // Splash Screen
   static final Key splashScaffoldKey = const Key("splash_scaffold");
   static final Key splashImageKey = const Key("splash_image");
