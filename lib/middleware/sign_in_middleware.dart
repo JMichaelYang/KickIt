@@ -39,7 +39,11 @@ Middleware<AppState> _createSignIn(ISignIn signIn) {
         Keys.navigatorKey.currentState
             .pushReplacementNamed(InternalStrings.mainScreenRoute);
       },
-    ).catchError((_) => store.dispatch(new FailedSignInAction()));
+    ).catchError(
+      (_) {
+        store.dispatch(new FailedSignInAction());
+      },
+    );
 
     next(action);
   };

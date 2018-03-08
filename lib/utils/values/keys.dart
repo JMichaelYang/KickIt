@@ -10,6 +10,7 @@ class Keys {
   static final Key splashScaffoldKey = const Key("splash_scaffold");
   static final Key splashImageKey = const Key("splash_image");
   static final Key splashButtonKey = const Key("splash_button");
+  static final Key splashFailedDialogKey = const Key("splash_failedDialog");
 
   // Main Screen
   static final Key mainScaffoldKey = const Key("main_scaffold");

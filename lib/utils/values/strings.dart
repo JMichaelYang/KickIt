@@ -4,6 +4,11 @@ class Strings {
   static const String ok = "OK";
   static const String cancel = "Cancel";
 
+  // Splash Screen
+  static const String splashFailedTitle = "Sign in failed";
+  static const String splashFailedBody =
+      "There was a problem signing in, please try again.";
+
   // Main Screen
   static const String mainBottomBarTalk = "talk";
   static const String mainBottomBarFeed = "feed";

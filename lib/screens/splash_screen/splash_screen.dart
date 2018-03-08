@@ -50,7 +50,7 @@ class SplashScreen extends StatelessWidget {
       case SignInState.SIGNING_IN:
         return _waitIndicator();
       case SignInState.FAILED:
-        return _loginButton(); // TODO: Notify the user of failed sign in.
+        return _loginButton(); // TODO: Change to _waitIndicator().
       case SignInState.SIGNED_IN:
         return _waitIndicator();
       default:

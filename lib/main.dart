@@ -14,9 +14,9 @@ import 'package:redux/redux.dart';
 
 void main() {
   // Set up the the correct loader source
-  ProfileInjector.configure(Status.LOCAL);
+  ProfileInjector.configure(Status.REMOTE);
   PlanInjector.configure(Status.LOCAL);
-  SignInInjector.configure(Status.LOCAL);
+  SignInInjector.configure(Status.REMOTE);
   runApp(new MyApp());
 }
 

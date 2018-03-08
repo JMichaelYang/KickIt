@@ -22,8 +22,10 @@ abstract class IProfileStore {
 /// Performs [Profile] loading operations with real network data.
 class ProfileStore implements IProfileStore {
   Future<ProfilePackage> loadProfile(String uid) async {
-    DocumentSnapshot snapshot =
-        await firestore.collection(usersKey).document(uid).get();
+    DocumentSnapshot snapshot = await Networking.firestore
+        .collection(Networking.usersKey)
+        .document(uid)
+        .get();
 
     // If the data couldn't be loaded, the given uid doesn't exist.
     if (snapshot == null) {
@@ -34,14 +36,17 @@ class ProfileStore implements IProfileStore {
   }
 
   Future<Null> saveProfile(ProfilePackage profile) async {
-    await firestore
-        .collection(usersKey)
+    await Networking.firestore
+        .collection(Networking.usersKey)
         .document(profile.uid)
         .setData(profile.toMap());
   }
 
   Future<Null> deleteProfile(String uid) async {
-    await firestore.collection(usersKey).document(uid).delete();
+    await Networking.firestore
+        .collection(Networking.usersKey)
+        .document(uid)
+        .delete();
   }
 }
 

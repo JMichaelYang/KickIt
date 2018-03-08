@@ -30,16 +30,24 @@ class SignIn extends ISignIn {
 
   Future<ProfilePackage> signIn() async {
     // Check to see if there is currently a signed in user.
-    final GoogleSignInAccount account = googleSignIn.currentUser;
+    final GoogleSignInAccount account = Networking.googleSignIn.currentUser;
 
     // Try to sign in without prompting the user.
     if (account == null) {
-      account == await googleSignIn.signInSilently();
+      try {
+        account == await Networking.googleSignIn.signInSilently();
+      } catch (error) {
+        print(error);
+      }
     }
 
     // If this doesn't work, prompt the user to sign in.
     if (account == null) {
-      account == await googleSignIn.signIn();
+      try {
+        account == await Networking.googleSignIn.signIn();
+      } catch (error) {
+        print(error);
+      }
     }
 
     // If this doesn't work, throw an error that should tell the user that
@@ -51,8 +59,8 @@ class SignIn extends ISignIn {
     final GoogleSignInAuthentication auth = await account.authentication;
 
     // Authenticate the user with firebase.
-    final FirebaseUser user = await firebaseAuth.signInWithGoogle(
-        idToken: auth.idToken, accessToken: auth.accessToken);
+    final FirebaseUser user = await Networking.firebaseAuth
+        .signInWithGoogle(idToken: auth.idToken, accessToken: auth.accessToken);
 
     if (user == null || user.isAnonymous) {
       throw new StateError("Log in error.");
@@ -72,8 +80,8 @@ class SignIn extends ISignIn {
   }
 
   Future<Null> signOut() async {
-    await googleSignIn.signOut();
-    await firebaseAuth.signOut();
+    await Networking.googleSignIn.signOut();
+    await Networking.firebaseAuth.signOut();
   }
 
   Future<Null> signOutAndDelete(String uid) async {
@@ -86,7 +94,7 @@ class SignIn extends ISignIn {
 class MockSignIn implements ISignIn {
   @override
   Future<ProfilePackage> signIn() {
-    return new Future.delayed(delayMedium,
+    return new Future.delayed(Networking.delayMedium,
         () => new ProfilePackage("_", "Jaewon Yang", "_", "Test profile."));
   }
 
