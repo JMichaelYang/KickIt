@@ -5,7 +5,7 @@ import 'package:kickit/middleware/app_state_middleware.dart';
 import 'package:kickit/models/app_state.dart';
 import 'package:kickit/reducers/app_state_reducer.dart';
 import 'package:kickit/screens/main_screen.dart';
-import 'package:kickit/screens/settings_screen.dart';
+import 'package:kickit/screens/settings_screen/settings_screen_container.dart';
 import 'package:kickit/screens/splash_screen/splash_screen_container.dart';
 import 'package:kickit/utils/values/internal_strings.dart';
 import 'package:kickit/utils/values/keys.dart';
@@ -42,7 +42,7 @@ class MyApp extends StatelessWidget {
           InternalStrings.mainScreenRoute: (BuildContext context) =>
               new MainScreen(),
           InternalStrings.settingsScreenRoute: (BuildContext context) =>
-              new SettingsScreen(),
+              new SettingsScreenContainer(),
         },
       ),
     );

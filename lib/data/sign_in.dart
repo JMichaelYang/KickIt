@@ -25,29 +25,26 @@ abstract class ISignIn {
 /// Performs sign in operations with real network data.
 class SignIn extends ISignIn {
   final IProfileStore store;
+  final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+  final GoogleSignIn googleSignIn = new GoogleSignIn(scopes: [
+    "email",
+    "https://www.googleapis.com/auth/contacts.readonly",
+  ]);
 
   SignIn() : store = new ProfileInjector().profileLoader;
 
   Future<ProfilePackage> signIn() async {
     // Check to see if there is currently a signed in user.
-    final GoogleSignInAccount account = Networking.googleSignIn.currentUser;
+    final GoogleSignInAccount account = googleSignIn.currentUser;
 
     // Try to sign in without prompting the user.
     if (account == null) {
-      try {
-        account == await Networking.googleSignIn.signInSilently();
-      } catch (error) {
-        print(error);
-      }
+      account == await googleSignIn.signInSilently();
     }
 
     // If this doesn't work, prompt the user to sign in.
     if (account == null) {
-      try {
-        account == await Networking.googleSignIn.signIn();
-      } catch (error) {
-        print(error);
-      }
+      account == await googleSignIn.signIn();
     }
 
     // If this doesn't work, throw an error that should tell the user that
@@ -59,8 +56,10 @@ class SignIn extends ISignIn {
     final GoogleSignInAuthentication auth = await account.authentication;
 
     // Authenticate the user with firebase.
-    final FirebaseUser user = await Networking.firebaseAuth
-        .signInWithGoogle(idToken: auth.idToken, accessToken: auth.accessToken);
+    final FirebaseUser user = await firebaseAuth.signInWithGoogle(
+      idToken: auth.idToken,
+      accessToken: auth.accessToken,
+    );
 
     if (user == null || user.isAnonymous) {
       throw new StateError("Log in error.");
@@ -70,8 +69,10 @@ class SignIn extends ISignIn {
 
     // No user was found, so create a new one and save it to the database.
     if (package == null) {
-      ProfilePackage newPackage =
-          new ProfilePackage.fromGoogleSignIn(account, user);
+      ProfilePackage newPackage = new ProfilePackage.fromGoogleSignIn(
+        account,
+        user,
+      );
       await store.saveProfile(newPackage);
       return newPackage;
     } else {
@@ -80,8 +81,8 @@ class SignIn extends ISignIn {
   }
 
   Future<Null> signOut() async {
-    await Networking.googleSignIn.signOut();
-    await Networking.firebaseAuth.signOut();
+    await googleSignIn.signOut();
+    await firebaseAuth.signOut();
   }
 
   Future<Null> signOutAndDelete(String uid) async {

@@ -1,35 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:kickit/utils/values/keys.dart';
+import 'package:kickit/utils/values/strings.dart';
+import 'package:meta/meta.dart';
 
-/// Screen that display's the public plans that this user can view.
-class SettingsScreen extends StatefulWidget {
-  @override
-  State<StatefulWidget> createState() {
-    return new _SettingsScreenState();
-  }
-}
+/// Screen that allows the user to modify settings as well as sign out.
+class SettingsScreen extends StatelessWidget {
+  final Function onSignOut;
+  final Function onSignOutAndDelete;
 
-/// Handles the state for a [TalkScreen].
-class _SettingsScreenState extends State<SettingsScreen> {
+  SettingsScreen({
+    Key key,
+    @required this.onSignOut,
+    @required this.onSignOutAndDelete,
+  })
+      : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
       key: Keys.settingsScaffoldKey,
-    );
-  }
-/*
-  @override
-  Widget build(BuildContext context) {
-    return new Scaffold(
-      key: Keys.settingsScaffoldKey,
-      appBar: _appBar(),
-      body: _body(),
+      appBar: _appBar(context),
+      body: _body(context),
     );
   }
 
   /// Gets the [AppBar] to use for this screen.
-  AppBar _appBar() {
+  AppBar _appBar(BuildContext context) {
     return new AppBar(
       key: Keys.settingsAppBarKey,
       centerTitle: true,
@@ -41,18 +38,18 @@ class _SettingsScreenState extends State<SettingsScreen> {
   }
 
   /// Gets the [ListView] to use as this screen's body.
-  ListView _body() {
+  ListView _body(BuildContext context) {
     return new ListView(
       key: Keys.settingsBodyKey,
       children: <Widget>[
-        _logout(),
-        _delete(),
+        _logout(context),
+        _delete(context),
       ],
     );
   }
 
   /// Gets the logout button for this screen.
-  ListTile _logout() {
+  Widget _logout(BuildContext context) {
     return new ListTile(
       key: Keys.settingsLogoutKey,
       title: new Text(
@@ -61,17 +58,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
         textAlign: TextAlign.right,
       ),
       trailing: new Icon(Icons.exit_to_app),
-      onTap: () async {
-        await Authenticator.signOutWithGoogle();
-        Navigator
-            .of(context)
-            .pushReplacementNamed(InternalStrings.splashScreenRoute);
-      },
+      onTap: onSignOut,
     );
   }
 
   /// Gets the delete account button for this screen.
-  ListTile _delete() {
+  Widget _delete(BuildContext context) {
     return new ListTile(
       key: Keys.settingsDeleteKey,
       title: new Text(
@@ -81,23 +73,21 @@ class _SettingsScreenState extends State<SettingsScreen> {
       ),
       trailing: new Icon(Icons.delete),
       onTap: () async {
-        showDialog(context: context, child: _deleteConfirmDialog())
-            .then((value) async {
-          if (value == true) {
-            await Authenticator.deleteAndSignOut();
-            Navigator
-                .of(context)
-                .pushReplacementNamed(InternalStrings.splashScreenRoute);
-          }
-        });
+        showDialog(context: context, child: _deleteConfirmDialog(context)).then(
+          (value) async {
+            if (value == true) {
+              onSignOutAndDelete();
+            }
+          },
+        );
       },
     );
   }
 
   /// Gets the confirmation dialog for the delete account button.
-  AlertDialog _deleteConfirmDialog() {
+  AlertDialog _deleteConfirmDialog(BuildContext context) {
     return new AlertDialog(
-    key: Keys.settingsDeleteConfirmKey,
+      key: Keys.settingsDeleteConfirmKey,
       content: new Text(Strings.settingsConfirmDelete),
       actions: <Widget>[
         new FlatButton(
@@ -116,5 +106,5 @@ class _SettingsScreenState extends State<SettingsScreen> {
         ),
       ],
     );
-  }*/
+  }
 }
