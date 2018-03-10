@@ -45,6 +45,7 @@ class SignIn extends ISignIn {
     // If this doesn't work, prompt the user to sign in.
     if (account == null) {
       account == await googleSignIn.signIn();
+      // TODO: Figure out double sign in issue.
     }
 
     // If this doesn't work, throw an error that should tell the user that
@@ -95,8 +96,10 @@ class SignIn extends ISignIn {
 class MockSignIn implements ISignIn {
   @override
   Future<ProfilePackage> signIn() {
-    return new Future.delayed(Networking.delayMedium,
-        () => new ProfilePackage("_", "Jaewon Yang", "_", "Test profile."));
+    return new Future.delayed(
+      delayMedium,
+      () => new ProfilePackage("_", "Jaewon Yang", "_", "Test profile."),
+    );
   }
 
   @override

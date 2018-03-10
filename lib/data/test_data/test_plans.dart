@@ -1,33 +1,36 @@
-import 'package:kickit/models/plan.dart';
+import 'package:kickit/database/plan_package.dart';
 
-/// Provides test [Plan]s with which to test classes that need them.
-final List<Plan> plans = <Plan>[
+/// Provides test [PlanPackage]s with which to test classes that need them.
+final PlanPackage test1 = new PlanPackage(
+  "_",
+  "_",
+  "Steast",
+  "dinner",
+  "Steast",
+  null,
+  null,
+);
+final PlanPackage test2 = new PlanPackage(
+  "_",
+  "_",
+  "Whole Foods",
+  "groceries",
+  "Whole Foods",
+  new DateTime.utc(2018, 4, 20).millisecondsSinceEpoch,
+  null,
+);
+final PlanPackage test3 = new PlanPackage(
+  "_",
+  "_",
+  "Breakfast",
+  "getting breakfast",
+  "Amelia's",
+  new DateTime.utc(2018, 7, 4, 11).millisecondsSinceEpoch,
+  new DateTime.utc(2018, 7, 4, 13).millisecondsSinceEpoch,
+);
+
+final List<PlanPackage> testPlans = <PlanPackage>[
   test1,
   test2,
   test3,
 ];
-
-final Plan test1 = new Plan(
-  "_",
-  "_",
-  "Steast",
-  description: "dinner",
-  location: "Steast",
-);
-final Plan test2 = new Plan(
-  "_",
-  "_",
-  "Whole Foods",
-  description: "groceries",
-  location: "Whole Foods",
-  start: new DateTime.utc(2018, 4, 20),
-);
-final Plan test3 = new Plan(
-  "_",
-  "_",
-  "Breakfast",
-  description: "getting breakfast",
-  location: "Amelia's",
-  start: new DateTime.utc(2018, 7, 4, 11),
-  end: new DateTime.utc(2018, 7, 4, 13),
-);

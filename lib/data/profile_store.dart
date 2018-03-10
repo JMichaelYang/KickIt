@@ -21,14 +21,16 @@ abstract class IProfileStore {
 
 /// Performs [Profile] loading operations with real network data.
 class ProfileStore implements IProfileStore {
+  // Database reference and the collection to access.
   final Firestore firestore = Firestore.instance;
+  static const String usersKey = "users";
 
   Future<ProfilePackage> loadProfile(String uid) async {
     DocumentSnapshot snapshot;
 
     try {
       snapshot =
-          await firestore.collection(Networking.usersKey).document(uid).get();
+          await firestore.collection(usersKey).document(uid).get();
     } catch (e) {
       return null;
     }
@@ -43,13 +45,13 @@ class ProfileStore implements IProfileStore {
 
   Future<Null> saveProfile(ProfilePackage profile) async {
     await firestore
-        .collection(Networking.usersKey)
+        .collection(usersKey)
         .document(profile.uid)
         .setData(profile.toMap());
   }
 
   Future<Null> deleteProfile(String uid) async {
-    await firestore.collection(Networking.usersKey).document(uid).delete();
+    await firestore.collection(usersKey).document(uid).delete();
   }
 }
 
@@ -66,7 +68,9 @@ class MockProfileStore implements IProfileStore {
   }
 
   Future<Null> saveProfile(ProfilePackage profile) async {
-    testProfiles.add(profile);
+    if (!testProfiles.contains(profile)) {
+      testProfiles.add(profile);
+    }
     return null;
   }
 

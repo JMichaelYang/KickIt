@@ -1,3 +1,4 @@
+import 'package:kickit/database/plan_package.dart';
 import 'package:meta/meta.dart';
 
 /// An object that stores data about a plan. A [Plan] has the following fields:
@@ -63,11 +64,48 @@ class Plan {
       String location,
       DateTime start,
       DateTime end}) {
-    return new Plan(this.id, this.ownerId, title ?? this.title,
-        description: description ?? this.description,
-        location: location ?? this.location,
-        start: start ?? this.start,
-        end: end ?? this.end);
+    return new Plan(
+      this.id,
+      this.ownerId,
+      title ?? this.title,
+      description: description ?? this.description,
+      location: location ?? this.location,
+      start: start ?? this.start,
+      end: end ?? this.end,
+    );
+  }
+
+  /// Creates a [Plan] from the given [PlanPackage].
+  Plan.fromPackage(PlanPackage package)
+      : id = package.id,
+        ownerId = package.ownerId,
+        title = package.title,
+        description = package.description,
+        location = package.location,
+        start = package.start == null
+            ? null
+            : new DateTime.fromMillisecondsSinceEpoch(
+                package.start,
+                isUtc: true,
+              ),
+        end = package.end == null
+            ? null
+            : new DateTime.fromMillisecondsSinceEpoch(
+                package.end,
+                isUtc: true,
+              );
+
+  /// Converts this [Plan] into a [PlanPackage].
+  PlanPackage toPackage() {
+    return new PlanPackage(
+      id,
+      ownerId,
+      title,
+      description,
+      location,
+      start == null ? null : start.millisecondsSinceEpoch,
+      end == null ? null : end.millisecondsSinceEpoch,
+    );
   }
 
   /// Gets a hash code for this [Plan].
