@@ -25,24 +25,31 @@ class PlanStore implements IPlanStore {
   final Firestore firestore = Firestore.instance;
   static const String plansKey = "plans";
 
-  PlanStore() {
-    throw new UnimplementedError("Plan store not implemented.");
+  @override
+  Future<PlanPackage> loadPlan(String id) async {
+    DocumentReference ref = firestore.collection(plansKey).document(id);
+    if (ref == null) {
+      return null;
+    }
+
+    DocumentSnapshot snapshot = await ref.get();
+    return new PlanPackage.fromMap(snapshot.data);
   }
 
   @override
-  Future<PlanPackage> loadPlan(String id) {
-    throw new UnimplementedError("Plan store not implemented.");
-  }
+  Future<Null> savePlan(PlanPackage plan) async {
+    firestore.collection(plansKey).add(plan.toMap()).then((ref) async {
+      PlanPackage idPlan = plan.copyWith(id: ref.documentID);
+      await ref.setData(idPlan.toMap());
+    });
 
-  @override
-  Future<Null> savePlan(PlanPackage plan) {
-    throw new UnimplementedError("Plan store not implemented.");
-    // TODO: Figure out how to get ID and then save.
+    return null;
   }
 
   @override
   Future<Null> deletePlan(String id) {
-    throw new UnimplementedError("Plan store not implemented.");
+    firestore.collection(plansKey).document(id).delete();
+    return null;
   }
 }
 

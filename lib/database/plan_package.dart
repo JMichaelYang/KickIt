@@ -24,6 +24,11 @@ class PlanPackage {
   PlanPackage(this.id, this.ownerId, this.title, this.description,
       this.location, this.start, this.end);
 
+  /// Constructor for PlanPackage that has not yet been saved.
+  PlanPackage.noId(this.ownerId, this.title, this.description, this.location,
+      this.start, this.end)
+      : this.id = "";
+
   /// Constructor to create a [PlanPackage] from a [Map] from the database.
   PlanPackage.fromMap(Map<String, Object> map)
       : id = map[_idKey],
@@ -45,6 +50,28 @@ class PlanPackage {
     if (description == null) {
       throw new ArgumentError("Given map's description field was null.");
     }
+  }
+
+  /// Creates a new [PlanPackage] with the values provided. Unprovided values
+  /// remain the same.
+  PlanPackage copyWith({
+    String id,
+    String ownerId,
+    String title,
+    String description,
+    String location,
+    int start,
+    int end,
+  }) {
+    return new PlanPackage(
+      id ?? this.id,
+      ownerId ?? this.ownerId,
+      title ?? this.title,
+      description ?? this.description,
+      location ?? this.location,
+      start ?? this.start,
+      end ?? this.end,
+    );
   }
 
   /// Converts this object into JSON format for database storage.
