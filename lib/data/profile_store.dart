@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:kickit/data/test_data/test_profiles.dart';
-import 'package:kickit/database/networking.dart';
 import 'package:kickit/database/profile_package.dart';
 
 /// A collection of methods that handle the loading and saving of [Profile]s to
@@ -29,14 +28,13 @@ class ProfileStore implements IProfileStore {
     DocumentSnapshot snapshot;
 
     try {
-      snapshot =
-          await firestore.collection(usersKey).document(uid).get();
+      snapshot = await firestore.collection(usersKey).document(uid).get();
     } catch (e) {
       return null;
     }
 
     // If the data couldn't be loaded, the given uid doesn't exist.
-    if (snapshot == null) {
+    if (snapshot == null || snapshot.data == null) {
       return null;
     }
 

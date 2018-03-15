@@ -27,12 +27,19 @@ class PlanStore implements IPlanStore {
 
   @override
   Future<PlanPackage> loadPlan(String id) async {
-    DocumentReference ref = firestore.collection(plansKey).document(id);
-    if (ref == null) {
+    DocumentSnapshot snapshot;
+
+    try {
+      snapshot = await firestore.collection(plansKey).document(id).get();
+    } catch (e) {
       return null;
     }
 
-    DocumentSnapshot snapshot = await ref.get();
+    // If the data couldn't be loaded, the given uid doesn't exist.
+    if (snapshot == null || snapshot.data == null) {
+      return null;
+    }
+
     return new PlanPackage.fromMap(snapshot.data);
   }
 

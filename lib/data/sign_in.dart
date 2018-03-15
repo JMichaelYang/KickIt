@@ -26,25 +26,22 @@ abstract class ISignIn {
 class SignIn extends ISignIn {
   final IProfileStore store;
   final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
-  final GoogleSignIn googleSignIn = new GoogleSignIn(scopes: [
-    "email",
-    "https://www.googleapis.com/auth/contacts.readonly",
-  ]);
+  final GoogleSignIn googleSignIn = new GoogleSignIn();
 
   SignIn() : store = new ProfileInjector().profileLoader;
 
   Future<ProfilePackage> signIn() async {
     // Check to see if there is currently a signed in user.
-    final GoogleSignInAccount account = googleSignIn.currentUser;
+    GoogleSignInAccount account = googleSignIn.currentUser;
 
     // Try to sign in without prompting the user.
     if (account == null) {
-      account == await googleSignIn.signInSilently();
+      account = await googleSignIn.signInSilently();
     }
 
     // If this doesn't work, prompt the user to sign in.
     if (account == null) {
-      account == await googleSignIn.signIn();
+      account = await googleSignIn.signIn();
       // TODO: Figure out double sign in issue.
     }
 
