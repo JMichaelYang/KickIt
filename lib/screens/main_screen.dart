@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:kickit/screens/feed_screen.dart';
-import 'package:kickit/screens/profile_screen.dart';
-import 'package:kickit/screens/talk_screen.dart';
+import 'package:kickit/screens/profile_screen/profile_screen.dart';
+import 'package:kickit/screens/groups_screen.dart';
 import 'package:kickit/utils/values/internal_strings.dart';
 import 'package:kickit/utils/values/keys.dart';
 import 'package:kickit/utils/values/strings.dart';
@@ -103,7 +103,7 @@ class _MainScreenState extends State<MainScreen> {
       items: [
         new BottomNavigationBarItem(
           icon: new Icon(Icons.people),
-          title: new Text(Strings.mainBottomBarTalk),
+          title: new Text(Strings.mainBottomBarGroups),
         ),
         new BottomNavigationBarItem(
           icon: new Icon(Icons.list),

@@ -10,7 +10,7 @@ class Strings {
       "There was a problem signing in, please try again.";
 
   // Main Screen
-  static const String mainBottomBarTalk = "talk";
+  static const String mainBottomBarGroups = "groups";
   static const String mainBottomBarFeed = "feed";
   static const String mainBottomBarProfile = "profile";
 

@@ -19,8 +19,8 @@ class Keys {
   static final Key mainPageViewKey = const Key("main_pageView");
   static final Key mainBottomBarKey = const Key("main_bottomBar");
 
-  // Talk Screen
-  static final Key talkScaffoldKey = const Key("talk_scaffold");
+  // Groups Screen
+  static final Key groupsScaffoldKey = const Key("groups_scaffold");
 
   // Feed Screen
   static final Key feedScaffoldKey = const Key("feed_scaffold");
