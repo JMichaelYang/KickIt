@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:kickit/data/test_data/test_plans.dart';
-import 'package:kickit/database/plan_package.dart';
+import 'package:kickit/data/plan_package.dart';
 
 /// A collection of methods that handle the loading and saving of [Plan]s to
 /// and from Firebase.

@@ -12,8 +12,6 @@ dependencies:
   google_sign_in: ^2.0.0
   firebase_auth: ^0.4.4
   cloud_firestore: ^0.2.8
-  flutter_redux: ^0.3.5
-  redux: ^2.1.1
 
 dev_dependencies:
   flutter_test:

@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:kickit/data/test_data/test_profiles.dart';
-import 'package:kickit/database/profile_package.dart';
+import 'package:kickit/data/profile_package.dart';
 
 /// A collection of methods that handle the loading and saving of [Profile]s to
 /// and from Firebase.

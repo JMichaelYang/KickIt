@@ -1,4 +1,4 @@
-import 'package:kickit/database/profile_package.dart';
+import 'package:kickit/data/profile_package.dart';
 
 /// An object that stores data about a user. A [Profile] has the following
 /// fields:
@@ -19,12 +19,8 @@ class Profile {
       : this.imageUrl = imageUrl ?? "",
         this.description = description ?? "" {
     // Argument checking.
-    if (this.uid == null) {
-      throw new ArgumentError("A Profile's uid cannot be null.");
-    }
-    if (this.name == null) {
-      throw new ArgumentError("A Profile's name cannot be null.");
-    }
+    assert(this.uid != null);
+    assert(this.name != null);
     if (this.description.length > 200) {
       throw new ArgumentError(
           "A Profile's description cannot be greater than 200 characters.");

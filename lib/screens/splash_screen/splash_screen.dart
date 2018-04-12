@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:kickit/models/app_state.dart';
+import 'package:kickit/models/app_state_data.dart';
 import 'package:kickit/utils/values/asset_paths.dart';
 import 'package:kickit/utils/values/keys.dart';
 import 'package:meta/meta.dart';
@@ -11,11 +11,7 @@ class SplashScreen extends StatelessWidget {
   final Function onSignIn;
   final SignInState state;
 
-  SplashScreen({
-    Key key,
-    @required this.onSignIn,
-    @required this.state,
-  })
+  SplashScreen({Key key, @required this.onSignIn, @required this.state})
       : super(key: key);
 
   @override

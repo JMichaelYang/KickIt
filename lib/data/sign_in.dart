@@ -4,8 +4,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:kickit/data/injectors.dart';
 import 'package:kickit/data/profile_store.dart';
-import 'package:kickit/database/networking.dart';
-import 'package:kickit/database/profile_package.dart';
+import 'package:kickit/data/networking.dart';
+import 'package:kickit/data/profile_package.dart';
 
 /// A collection of methods that handle the signing in and signing out of the
 /// current user.

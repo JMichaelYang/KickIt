@@ -1,4 +1,4 @@
-import 'package:kickit/database/profile_package.dart';
+import 'package:kickit/data/profile_package.dart';
 
 /// Provides test [ProfilePackage]s with which to test classes that need them.
 final ProfilePackage test1 = new ProfilePackage(

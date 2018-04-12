@@ -1,4 +1,4 @@
-import 'package:kickit/database/plan_package.dart';
+import 'package:kickit/data/plan_package.dart';
 import 'package:meta/meta.dart';
 
 /// An object that stores data about a plan. A [Plan] has the following fields:
@@ -27,13 +27,8 @@ class Plan {
       {String description, String location, this.start, this.end})
       : this.description = description ?? "",
         this.location = location ?? "" {
-    // Argument checking.
-    if (this.id == null) {
-      throw new ArgumentError("A Plan's ID cannot be null.");
-    }
-    if (this.ownerId == null) {
-      throw new ArgumentError("A Plan's owner ID cannot be null.");
-    }
+    assert(this.id != null);
+    assert(this.ownerId != null);
     if (this.title == null) {
       throw new ArgumentError("A Plan's title cannot be null.");
     } else if (this.title.length < 4) {

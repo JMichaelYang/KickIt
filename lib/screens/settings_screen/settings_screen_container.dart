@@ -1,7 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:kickit/actions/sign_in_actions.dart';
-import 'package:kickit/models/app_state.dart';
+import 'package:kickit/models/app_state_data.dart';
 import 'package:kickit/screens/settings_screen/settings_screen.dart';
 import 'package:kickit/selectors/selectors.dart';
 import 'package:meta/meta.dart';
@@ -13,7 +13,7 @@ class SettingsScreenContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return new StoreConnector<AppState, _ViewModel>(
+    return new StoreConnector<AppStateData, _ViewModel>(
       converter: _ViewModel.fromStore,
       builder: (context, vm) {
         return new SettingsScreen(
@@ -30,12 +30,13 @@ class _ViewModel {
   final Function onSignOutAndDelete;
   final SignInState state;
 
-  _ViewModel(
-      {@required this.onSignOut,
-      @required this.onSignOutAndDelete,
-      @required this.state});
+  _ViewModel({
+    @required this.onSignOut,
+    @required this.onSignOutAndDelete,
+    @required this.state,
+  });
 
-  static _ViewModel fromStore(Store<AppState> store) {
+  static _ViewModel fromStore(Store<AppStateData> store) {
     return new _ViewModel(
       onSignOut: () => store.dispatch(new SignOutAction()),
       onSignOutAndDelete: () => store.dispatch(new SignOutAndDeleteAction()),

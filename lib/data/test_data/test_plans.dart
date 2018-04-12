@@ -1,4 +1,4 @@
-import 'package:kickit/database/plan_package.dart';
+import 'package:kickit/data/plan_package.dart';
 
 /// Provides test [PlanPackage]s with which to test classes that need them.
 final PlanPackage test1 = new PlanPackage(
