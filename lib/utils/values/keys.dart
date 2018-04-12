@@ -2,10 +2,15 @@ import 'package:flutter/widgets.dart';
 
 /// Stores the keys to be used for referencing widgets in tests.
 class Keys {
+  /// Key with which to access the navigator from the outside.
+  static final GlobalKey<NavigatorState> navigatorKey =
+      new GlobalKey<NavigatorState>();
+
   // Splash Screen
   static final Key splashScaffoldKey = const Key("splash_scaffold");
   static final Key splashImageKey = const Key("splash_image");
   static final Key splashButtonKey = const Key("splash_button");
+  static final Key splashFailedDialogKey = const Key("splash_failedDialog");
 
   // Main Screen
   static final Key mainScaffoldKey = const Key("main_scaffold");
@@ -14,12 +19,14 @@ class Keys {
   static final Key mainPageViewKey = const Key("main_pageView");
   static final Key mainBottomBarKey = const Key("main_bottomBar");
 
-  // Talk Screen
-  static final Key talkScaffoldKey = const Key("talk_scaffold");
+  // Groups Screen
+  static final Key groupsScaffoldKey = const Key("groups_scaffold");
 
   // Feed Screen
   static final Key feedScaffoldKey = const Key("feed_scaffold");
   static final Key feedListKey = const Key("feed_list");
+  static final Function(String) feedPlanItemKey =
+      (String id) => new Key("feed_planItem$id");
 
   // Profile Screen
   static final Key profileScaffoldKey = const Key("profile_scaffold");

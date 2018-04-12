@@ -15,7 +15,7 @@ class _TalkScreenState extends State<TalkScreen> {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-      key: Keys.talkScaffoldKey,
+      key: Keys.groupsScaffoldKey,
     );
   }
 }
