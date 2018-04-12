@@ -1,5 +1,9 @@
+import 'package:kickit/data/injectors.dart';
+import 'package:kickit/data/plan_store.dart';
+import 'package:kickit/data/profile_package.dart';
+import 'package:kickit/data/profile_store.dart';
+import 'package:kickit/data/sign_in.dart';
 import 'package:kickit/models/profile.dart';
-import 'package:meta/meta.dart';
 
 /// Keeps track of the current sign in state.
 enum SignInState {
@@ -9,28 +13,53 @@ enum SignInState {
   SIGNED_IN,
 }
 
-/// An immutable representation of the current state of the app. Stores all of
-/// the data that should be used throughout the app. The only way to modify
-/// this state is by dispatching [Action]s to it.
-@immutable
+/// Represents the current state of the app.
 class AppStateData {
-  // The currently logged in profile and its state.
-  final Profile profile;
-  final SignInState signInState;
+  static final AppStateData _singleton = new AppStateData._initial();
 
-  /// Creates a new [AppStateData] with the given values.
-  AppStateData({this.profile, this.signInState = SignInState.NOT_SIGNED_IN});
+  // The currently logged in profile and its state.
+  Profile profile;
+  SignInState signInState;
+
+  // A network manager for network operations.
+  NetworkManager networkManager;
 
   /// Creates a new [AppStateData] with the correct initial state.
-  const AppStateData.initial()
+  AppStateData._initial()
       : this.profile = null,
-        this.signInState = SignInState.NOT_SIGNED_IN;
+        this.signInState = SignInState.NOT_SIGNED_IN {
+    this.networkManager = new NetworkManager(this);
+  }
 
-  /// Creates a copy of this [AppStateData] with the new given values. Any values
-  /// not given default to the original values.
-  AppStateData copyWith({Profile profile, SignInState state}) {
-    return new AppStateData(
-        profile: profile ?? this.profile,
-        signInState: state ?? this.signInState);
+  factory AppStateData() {
+    return _singleton;
+  }
+}
+
+/// Manages network transactions for the [AppStateData] model.
+class NetworkManager {
+  // The data that is being managed.
+  final AppStateData data;
+
+  // The stores to use for network access.
+  final IPlanStore _planStore;
+  final IProfileStore _profileStore;
+  final ISignIn _signIn;
+
+  /// Creates a new [NetworkManager] with the stores derived from injectors in
+  /// order to ensure that the correct source is used.
+  NetworkManager(this.data)
+      : this._planStore = new PlanInjector().planLoader,
+        this._profileStore = new ProfileInjector().profileLoader,
+        this._signIn = new SignInInjector().signIn;
+
+  void signIn() async {
+    ProfilePackage package = await _signIn.signIn();
+    if (package == null) {
+      data.signInState = SignInState.FAILED;
+    } else {
+      data.profile = new Profile.fromPackage(await _signIn.signIn());
+      data.signInState = SignInState.SIGNED_IN;
+    }
   }
 }

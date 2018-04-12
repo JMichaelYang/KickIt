@@ -13,10 +13,10 @@ class AppState extends StatelessWidget {
   /// Creates a new [AppState] with the given [data] and [child] widget.
   AppState({
     @required this.child,
-    this.data = AppStateData.initial(),
+    AppStateData data,
     Key key,
   })  : assert(child != null),
-        assert(data != null),
+        this.data = new AppStateData(),
         super(key: key);
 
   /// Get's this context's state data and returns it.
