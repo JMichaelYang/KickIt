@@ -1,9 +1,5 @@
-import 'package:kickit/data/injectors.dart';
-import 'package:kickit/data/plan_store.dart';
-import 'package:kickit/data/profile_package.dart';
-import 'package:kickit/data/profile_store.dart';
-import 'package:kickit/data/sign_in.dart';
 import 'package:kickit/models/profile.dart';
+import 'package:meta/meta.dart';
 
 /// Keeps track of the current sign in state.
 enum SignInState {
@@ -13,53 +9,32 @@ enum SignInState {
   SIGNED_IN,
 }
 
-/// Represents the current state of the app.
+/// Represents the current state of the app. This is an immutable state that
+/// can only be modified by recreating the object with new values.
+@immutable
 class AppStateData {
-  static final AppStateData _singleton = new AppStateData._initial();
-
   // The currently logged in profile and its state.
-  Profile profile;
-  SignInState signInState;
-
-  // A network manager for network operations.
-  NetworkManager networkManager;
+  final Profile profile;
+  final SignInState signInState;
 
   /// Creates a new [AppStateData] with the correct initial state.
-  AppStateData._initial()
+  AppStateData.initial()
       : this.profile = null,
-        this.signInState = SignInState.NOT_SIGNED_IN {
-    this.networkManager = new NetworkManager(this);
-  }
+        this.signInState = SignInState.NOT_SIGNED_IN;
 
-  factory AppStateData() {
-    return _singleton;
-  }
-}
+  /// An internal constructor that creates a new instance of [AppStateData] for
+  /// use in the copy method.
+  AppStateData._with(this.profile, this.signInState);
 
-/// Manages network transactions for the [AppStateData] model.
-class NetworkManager {
-  // The data that is being managed.
-  final AppStateData data;
-
-  // The stores to use for network access.
-  final IPlanStore _planStore;
-  final IProfileStore _profileStore;
-  final ISignIn _signIn;
-
-  /// Creates a new [NetworkManager] with the stores derived from injectors in
-  /// order to ensure that the correct source is used.
-  NetworkManager(this.data)
-      : this._planStore = new PlanInjector().planLoader,
-        this._profileStore = new ProfileInjector().profileLoader,
-        this._signIn = new SignInInjector().signIn;
-
-  void signIn() async {
-    ProfilePackage package = await _signIn.signIn();
-    if (package == null) {
-      data.signInState = SignInState.FAILED;
-    } else {
-      data.profile = new Profile.fromPackage(await _signIn.signIn());
-      data.signInState = SignInState.SIGNED_IN;
-    }
+  /// Creates a new [AppStateData] with values identical to this one, except
+  /// where new ones are specified.
+  AppStateData copyWith({
+    Profile profile,
+    SignInState signInState,
+  }) {
+    return new AppStateData._with(
+      profile ?? this.profile,
+      signInState ?? this.signInState,
+    );
   }
 }

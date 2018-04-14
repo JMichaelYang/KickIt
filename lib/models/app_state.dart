@@ -1,11 +1,12 @@
 import 'package:flutter/widgets.dart';
 import 'package:kickit/models/app_state_data.dart';
+import 'package:kickit/models/app_state_wrapper.dart';
 import 'package:meta/meta.dart';
 
 /// A root level widget that stores the state data for this application.
 class AppState extends StatelessWidget {
   // The state data that this app has.
-  final AppStateData data;
+  final AppStateWrapper wrapper;
 
   // The widget below this one on the widget tree.
   final Widget child;
@@ -16,14 +17,14 @@ class AppState extends StatelessWidget {
     AppStateData data,
     Key key,
   })  : assert(child != null),
-        this.data = new AppStateData(),
+        this.wrapper = new AppStateWrapper(),
         super(key: key);
 
   /// Get's this context's state data and returns it.
-  static AppStateData of(BuildContext context) {
+  static AppStateWrapper of(BuildContext context) {
     final _InheritedAppState appState =
         context.inheritFromWidgetOfExactType(_InheritedAppState);
-    return appState.appState.data;
+    return appState.appState.wrapper;
   }
 
   @override
@@ -51,5 +52,5 @@ class _InheritedAppState extends InheritedWidget {
 
   @override
   bool updateShouldNotify(_InheritedAppState old) =>
-      appState.data != old.appState.data;
+      appState.wrapper != old.appState.wrapper;
 }

@@ -1,27 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:kickit/models/app_state.dart';
+import 'package:kickit/models/app_state_wrapper.dart';
 import 'package:kickit/utils/values/keys.dart';
 import 'package:kickit/utils/values/strings.dart';
-import 'package:meta/meta.dart';
 
 /// Screen that allows the user to modify settings as well as sign out.
 class SettingsScreen extends StatelessWidget {
-  final Function onSignOut;
-  final Function onSignOutAndDelete;
-
   SettingsScreen({
     Key key,
-    @required this.onSignOut,
-    @required this.onSignOutAndDelete,
-  })
-      : super(key: key);
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    AppStateWrapper wrapper = AppState.of(context);
+
     return new Scaffold(
       key: Keys.settingsScaffoldKey,
       appBar: _appBar(context),
-      body: _body(context),
+      body: _body(wrapper, context),
     );
   }
 
@@ -38,18 +35,18 @@ class SettingsScreen extends StatelessWidget {
   }
 
   /// Gets the [ListView] to use as this screen's body.
-  ListView _body(BuildContext context) {
+  ListView _body(AppStateWrapper wrapper, BuildContext context) {
     return new ListView(
       key: Keys.settingsBodyKey,
       children: <Widget>[
-        _logout(context),
-        _delete(context),
+        _logout(wrapper, context),
+        _delete(wrapper, context),
       ],
     );
   }
 
   /// Gets the logout button for this screen.
-  Widget _logout(BuildContext context) {
+  Widget _logout(AppStateWrapper wrapper, BuildContext context) {
     return new ListTile(
       key: Keys.settingsLogoutKey,
       title: new Text(
@@ -58,12 +55,12 @@ class SettingsScreen extends StatelessWidget {
         textAlign: TextAlign.right,
       ),
       trailing: new Icon(Icons.exit_to_app),
-      onTap: onSignOut,
+      onTap: () => wrapper.signOut(),
     );
   }
 
   /// Gets the delete account button for this screen.
-  Widget _delete(BuildContext context) {
+  Widget _delete(AppStateWrapper wrapper, BuildContext context) {
     return new ListTile(
       key: Keys.settingsDeleteKey,
       title: new Text(
@@ -73,10 +70,12 @@ class SettingsScreen extends StatelessWidget {
       ),
       trailing: new Icon(Icons.delete),
       onTap: () async {
-        showDialog(context: context, child: _deleteConfirmDialog(context)).then(
+        showDialog(
+            context: context,
+            builder: (context) => _deleteConfirmDialog(context)).then(
           (value) async {
             if (value == true) {
-              onSignOutAndDelete();
+              wrapper.signOutAndDelete();
             }
           },
         );
