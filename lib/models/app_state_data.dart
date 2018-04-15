@@ -37,4 +37,15 @@ class AppStateData {
       signInState ?? this.signInState,
     );
   }
+
+  @override
+  bool operator ==(other) {
+    return other is AppStateData &&
+        other.runtimeType == this.runtimeType &&
+        other.profile == this.profile &&
+        other.signInState == this.signInState;
+  }
+
+  @override
+  int get hashCode => profile.hashCode ^ signInState.hashCode;
 }

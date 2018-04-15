@@ -51,6 +51,5 @@ class _InheritedAppState extends InheritedWidget {
         super(key: key, child: child);
 
   @override
-  bool updateShouldNotify(_InheritedAppState old) =>
-      appState.wrapper != old.appState.wrapper;
+  bool updateShouldNotify(_InheritedAppState old) => true;
 }

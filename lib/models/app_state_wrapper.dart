@@ -35,8 +35,23 @@ class AppStateWrapper {
     assert(_signIn != null);
   }
 
+  @override
+  bool operator ==(other) {
+    return other is AppStateWrapper &&
+        other.runtimeType == this.runtimeType &&
+        other._data == this._data;
+  }
+
+  @override
+  int get hashCode =>
+      _data.hashCode ^
+      _planStore.hashCode ^
+      _profileStore.hashCode ^
+      _signIn.hashCode;
+
   Future<Null> signIn() async {
     ProfilePackage package = await _signIn.signIn();
+
     if (package == null) {
       _data = _data.copyWith(signInState: SignInState.FAILED);
     } else {
