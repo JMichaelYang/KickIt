@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:kickit/models/app_state.dart';
-import 'package:kickit/models/app_state_wrapper.dart';
+import 'package:kickit/models/kickit.dart';
 import 'package:kickit/utils/values/keys.dart';
 import 'package:kickit/utils/values/strings.dart';
 
@@ -13,12 +12,12 @@ class SettingsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    AppStateWrapper wrapper = AppState.of(context);
+    KickItState state = KickIt.of(context);
 
     return new Scaffold(
       key: Keys.settingsScaffoldKey,
       appBar: _appBar(context),
-      body: _body(wrapper, context),
+      body: _body(state, context),
     );
   }
 
@@ -35,18 +34,18 @@ class SettingsScreen extends StatelessWidget {
   }
 
   /// Gets the [ListView] to use as this screen's body.
-  ListView _body(AppStateWrapper wrapper, BuildContext context) {
+  ListView _body(KickItState state, BuildContext context) {
     return new ListView(
       key: Keys.settingsBodyKey,
       children: <Widget>[
-        _logout(wrapper, context),
-        _delete(wrapper, context),
+        _logout(state, context),
+        _delete(state, context),
       ],
     );
   }
 
   /// Gets the logout button for this screen.
-  Widget _logout(AppStateWrapper wrapper, BuildContext context) {
+  Widget _logout(KickItState state, BuildContext context) {
     return new ListTile(
       key: Keys.settingsLogoutKey,
       title: new Text(
@@ -55,12 +54,12 @@ class SettingsScreen extends StatelessWidget {
         textAlign: TextAlign.right,
       ),
       trailing: new Icon(Icons.exit_to_app),
-      onTap: () => wrapper.signOut(),
+      onTap: () => state.signOut(),
     );
   }
 
   /// Gets the delete account button for this screen.
-  Widget _delete(AppStateWrapper wrapper, BuildContext context) {
+  Widget _delete(KickItState state, BuildContext context) {
     return new ListTile(
       key: Keys.settingsDeleteKey,
       title: new Text(
@@ -75,7 +74,7 @@ class SettingsScreen extends StatelessWidget {
             builder: (context) => _deleteConfirmDialog(context)).then(
           (value) async {
             if (value == true) {
-              wrapper.signOutAndDelete();
+              state.signOutAndDelete();
             }
           },
         );

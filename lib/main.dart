@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kickit/data/injectors.dart';
-import 'package:kickit/models/app_state.dart';
+import 'package:kickit/models/kickit.dart';
 import 'package:kickit/screens/main_screen.dart';
 import 'package:kickit/screens/settings_screen.dart';
 import 'package:kickit/screens/splash_screen.dart';
@@ -16,14 +16,14 @@ void main() {
 
   /// Run a new app with a default app state.
   runApp(
-    new AppState(
-      child: new KickIt(),
+    new KickIt(
+      child: new KickItApp(),
     ),
   );
 }
 
 /// A main app instance with the given data.
-class KickIt extends StatelessWidget {
+class KickItApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new MaterialApp(

@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:kickit/models/app_state.dart';
-import 'package:kickit/models/app_state_data.dart';
-import 'package:kickit/models/app_state_wrapper.dart';
+import 'package:kickit/models/kickit.dart';
 import 'package:kickit/utils/values/asset_paths.dart';
 import 'package:kickit/utils/values/keys.dart';
-import 'package:meta/meta.dart';
 
 /// Creates a landing screen where the user is signed in, the proceeds to the
 /// main app. Also serves as a landing screen after the user is logged out.
@@ -43,15 +41,15 @@ class SplashScreen extends StatelessWidget {
 
   /// Gets the correct element to display based on the current [state].
   Widget _displayElement(BuildContext context) {
-    AppStateWrapper wrapper = AppState.of(context);
+    KickItState state = KickIt.of(context);
 
-    switch (wrapper.data.signInState) {
+    switch (state.signInState) {
       case SignInState.NOT_SIGNED_IN:
-        return _loginButton(wrapper);
+        return _loginButton(state);
       case SignInState.SIGNING_IN:
         return _waitIndicator();
       case SignInState.FAILED:
-        return _loginButton(wrapper); // TODO: Change to _waitIndicator().
+        return _loginButton(state); // TODO: Change to _waitIndicator().
       case SignInState.SIGNED_IN:
         return _waitIndicator();
       default:
@@ -60,10 +58,10 @@ class SplashScreen extends StatelessWidget {
   }
 
   /// Gets the login button for this screen.
-  Widget _loginButton(AppStateWrapper wrapper) {
+  Widget _loginButton(KickItState state) {
     return new FlatButton(
       key: Keys.splashButtonKey,
-      onPressed: () => wrapper.signIn(),
+      onPressed: () => state.signIn(),
       padding: const EdgeInsets.all(0.0),
       child: new Image.asset(AssetPaths.splashSignin),
     );
