@@ -2,4 +2,7 @@
 class Profile {
   /// The generated uid of this user.
   String _uid;
+
+  /// The name of this user.
+  String _name;
 }
