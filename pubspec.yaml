@@ -18,6 +18,7 @@ dependencies:
 
   google_sign_in: any
   googleapis: any
+  meta: any
 
 dev_dependencies:
   flutter_test:
