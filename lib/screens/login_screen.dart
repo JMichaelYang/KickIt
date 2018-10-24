@@ -23,12 +23,23 @@ class LoginScreen extends StatefulWidget {
 /// A class that manages the state of the current [LoginScreen].
 class _LoginScreenState extends State<LoginScreen> {
   /// The current state of this [LoginScreen].
-  _LoginState _state = _LoginState.WAITING;
+  _LoginState _state = _LoginState.LOGGING_IN;
 
+  /// The [LoginBase] object used to sign in the user.
+  LoginBase _login;
+
+  /// Initialize the variables that this screen will need.
   @override
   void initState() {
-    _state = _LoginState.WAITING;
-
+    this._state = _LoginState.LOGGING_IN;
+    this._login = new InjectorLogin().login;
+    this._login.loginSilently().then((bool success) {
+      if (success) {
+        _pushMain(this.context);
+      } else {
+        setState(() => this._state = _LoginState.WAITING);
+      }
+    });
     super.initState();
   }
 
@@ -51,7 +62,7 @@ class _LoginScreenState extends State<LoginScreen> {
   /// Gets the widget to be displayed when waiting to log in.
   Widget _getWaiting(BuildContext context) {
     return new FlatButton(
-      onPressed: _login,
+      onPressed: _logIn,
       child: new Text(
         LOGIN_BUTTON,
         style: Theme.of(context).textTheme.button,
@@ -65,19 +76,14 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   /// Attempt to log in with Google.
-  Future<Null> _login() async {
+  Future<Null> _logIn() async {
     setState(() => this._state = _LoginState.LOGGING_IN);
-    LoginBase login = new InjectorLogin().login;
 
-    if (await login.login()) {
-      Navigator.of(context).pushReplacement(
-        new MaterialPageRoute(
-          builder: (context) => new MainScreen(),
-        ),
-      );
+    if (await _login.login()) {
+      _pushMain(this.context);
     } else {
       showDialog<Null>(
-        context: context,
+        context: this.context,
         builder: _getDialog,
       );
     }
@@ -108,6 +114,15 @@ class _LoginScreenState extends State<LoginScreen> {
           },
         ),
       ],
+    );
+  }
+
+  /// Push the [MainScreen] as a replacement to this screen.
+  void _pushMain(BuildContext context) {
+    Navigator.of(context).pushReplacement(
+      new MaterialPageRoute(
+        builder: (context) => new MainScreen(),
+      ),
     );
   }
 }
