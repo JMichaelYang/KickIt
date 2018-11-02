@@ -6,6 +6,7 @@ import 'package:kickit/blocs/bloc_provider.dart';
 import 'package:kickit/screens/login_screen.dart';
 import 'package:kickit/util/injectors/injector_login.dart';
 import 'package:kickit/util/injectors/injector_profile.dart';
+import 'package:kickit/util/strings.dart';
 import 'package:kickit/widgets/themes.dart';
 
 void main() async {
@@ -35,7 +36,7 @@ class KickItApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new MaterialApp(
-      title: "KickIt",
+      title: APP_TITLE,
       theme: dark,
       home: new BlocProvider<BlocLogin>(
         bloc: new BlocLogin(),

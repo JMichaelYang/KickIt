@@ -6,24 +6,24 @@ import 'package:kickit/blocs/bloc_provider.dart';
 import 'package:kickit/data/profile.dart';
 import 'package:kickit/util/injectors/injector_profile.dart';
 
-/// A bloc that handles a single profile's data.
-class BlocProfile extends BlocBase {
+/// A bloc that handles multiple profile's data.
+class BlocProfileList extends BlocBase {
   /// The profile api to use.
   final ApiProfileBase _api = new InjectorProfile().profileApi;
 
   /// A stream providing the user's [Profile] data.
-  StreamController<Profile> _profileController =
+  StreamController<List<Profile>> _profilesController =
       new StreamController.broadcast();
 
-  StreamSink<Profile> get _profileIn => _profileController.sink;
+  StreamSink<List<Profile>> get _profilesIn => _profilesController.sink;
 
-  Stream<Profile> get profileOut => _profileController.stream;
+  Stream<List<Profile>> get profilesOut => _profilesController.stream;
 
-  /// Request the user's profile.
-  void requestProfile(String uid) {
-    _api.getProfileById(uid).then(
-      (Profile profile) {
-        _profileIn.add(profile);
+  /// Request all of the profiles.
+  void requestAllProfiles() {
+    _api.getAllProfiles().then(
+      (List<Profile> profiles) {
+        _profilesIn.add(profiles);
       },
       onError: () => throw new DatabaseError(
             message: "Failed to get profile information from the database",
@@ -35,6 +35,6 @@ class BlocProfile extends BlocBase {
   @override
   void dispose() {
     print("Disposed profile controller.");
-    _profileController.close();
+    _profilesController.close();
   }
 }

@@ -26,7 +26,7 @@ class ApiProfile extends ApiProfileBase {
   /// Gets a stream of all of the [Profile] objects available.
   @override
   Future<List<Profile>> getAllProfiles() {
-    return null;
+    return FirestoreProfile.getAllProfiles();
   }
 
   /// Saves the given [Profile] object.

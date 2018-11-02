@@ -14,9 +14,7 @@ class ProfileDetailsWidget extends StatefulWidget {
 
   /// Create the state for this widget.
   @override
-  State<StatefulWidget> createState() {
-    return new _ProfileDetailsWidgetState();
-  }
+  State<StatefulWidget> createState() => new _ProfileDetailsWidgetState();
 }
 
 /// Manages the state of a details widget.
@@ -42,9 +40,8 @@ class _ProfileDetailsWidgetState extends State<ProfileDetailsWidget> {
     );
   }
 
+  /// Gets the body of information to be presented
   Widget _getBody(BuildContext context, AsyncSnapshot<Profile> snap) {
-    debugPrint(snap.toString());
-
     /// If the given profile is null, indicate that we are loading a profile.
     if (!snap.hasData) {
       return new Center(
