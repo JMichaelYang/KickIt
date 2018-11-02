@@ -2,8 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/kickit.iml" filepath="$PROJECT_DIR$/kickit.iml" />
-      <module fileurl="file://$PROJECT_DIR$/kickit_android.iml" filepath="$PROJECT_DIR$/kickit_android.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/kickit.iml" filepath="$PROJECT_DIR$/.idea/kickit.iml" />
     </modules>
   </component>
 </project>

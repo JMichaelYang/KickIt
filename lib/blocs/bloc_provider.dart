@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/widgets.dart';
 
 /// Abstract BLoC base class to be extended by any BLoC.

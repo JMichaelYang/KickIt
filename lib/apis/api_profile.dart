@@ -10,6 +10,9 @@ abstract class ApiProfileBase {
 
   /// Gets a stream of all of the [Profile] objects available.
   Future<List<Profile>> getAllProfiles();
+
+  /// Saves the given [Profile] object.
+  void saveProfile(Profile profile);
 }
 
 /// An api to retrieve profile information from a database.
@@ -24,6 +27,12 @@ class ApiProfile extends ApiProfileBase {
   @override
   Future<List<Profile>> getAllProfiles() {
     return null;
+  }
+
+  /// Saves the given [Profile] object.
+  @override
+  saveProfile(Profile profile) {
+    FirestoreProfile.saveProfile(profile);
   }
 }
 
@@ -52,8 +61,20 @@ class ApiProfileMock extends ApiProfileBase {
     );
   }
 
+  @override
+  void saveProfile(Profile profile) {
+    Profile p = _profiles
+        .singleWhere((Profile existing) => existing.uid == profile.uid);
+    if (p != null) {
+      int index = _profiles.indexOf(p);
+      _profiles[index] = profile;
+    } else {
+      _profiles.add(profile);
+    }
+  }
+
   // A mock list of profiles for testing.
-  static final List<Profile> _profiles = [
+  static List<Profile> _profiles = [
     new Profile("00001", "Jaewon Yang", "Developer"),
     new Profile("00002", "Malcolm Canterbury", "Developer"),
   ];

@@ -16,9 +16,8 @@ dependencies:
   flutter:
     sdk: flutter
 
-  google_sign_in: any
-  cloud_firestore: any
-  meta: any
+  google_sign_in: ^3.2.2
+  cloud_firestore: ^0.8.2+1
 
 dev_dependencies:
   flutter_test:

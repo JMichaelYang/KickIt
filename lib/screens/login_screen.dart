@@ -21,8 +21,15 @@ class _LoginScreenState extends State<LoginScreen> {
   /// Initialize the variables that this screen will need.
   @override
   void initState() {
-    this._bloc = BlocProvider.of<BlocLogin>(this.context);
-    this._bloc.loginSilently();
+    _bloc = BlocProvider.of<BlocLogin>(context);
+    _bloc.loginSilently();
+    _bloc.loggedInOut.listen(
+      (bool data) {
+        if (data) {
+          _pushMain(context);
+        }
+      },
+    );
     super.initState();
   }
 
@@ -39,7 +46,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Widget _getBody(BuildContext context, AsyncSnapshot<LoginState> state) {
-    if(state.data == null) {
+    if (state.data == null) {
       return _getLoggingIn(context);
     }
 
@@ -48,10 +55,6 @@ class _LoginScreenState extends State<LoginScreen> {
         return _getWaiting(context);
         break;
       case LoginState.LOGGING_IN:
-        return _getLoggingIn(context);
-        break;
-      case LoginState.LOGGED_IN:
-        _pushMain(context);
         return _getLoggingIn(context);
         break;
       default:

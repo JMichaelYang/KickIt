@@ -11,7 +11,7 @@ abstract class FirestoreProfile {
 
     if (ref != null) {
       await ref.setData(profile.toJson()).then(
-            (T) => {},
+            (data) => {},
             onError: () => throw new DatabaseError(
                   message: "Failed to write user data",
                 ),

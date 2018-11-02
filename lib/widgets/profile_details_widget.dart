@@ -3,33 +3,57 @@ import 'package:flutter/widgets.dart';
 import 'package:kickit/blocs/bloc_profile.dart';
 import 'package:kickit/blocs/bloc_provider.dart';
 import 'package:kickit/data/profile.dart';
-import 'package:kickit/util/injectors/injector_login.dart';
 
 /// Displays the details of a [Profile] on the screen.
-class ProfileDetailsWidget extends StatelessWidget {
+class ProfileDetailsWidget extends StatefulWidget {
+  /// The profile to display.
+  final String _uid;
+
+  /// Set the profile to display.
+  ProfileDetailsWidget(this._uid);
+
+  /// Create the state for this widget.
+  @override
+  State<StatefulWidget> createState() {
+    return new _ProfileDetailsWidgetState();
+  }
+}
+
+/// Manages the state of a details widget.
+class _ProfileDetailsWidgetState extends State<ProfileDetailsWidget> {
+  /// The bloc that requests profile information.
+  BlocProfile _bloc;
+
+  /// Request the user information.
+  @override
+  void initState() {
+    _bloc = BlocProvider.of<BlocProfile>(context);
+    _bloc.requestProfile(widget._uid);
+    super.initState();
+  }
+
   /// Builds a scrollable list of information regarding this [Profile].
   @override
   Widget build(BuildContext context) {
-    BlocUserProfile bloc = BlocProvider.of<BlocUserProfile>(context);
-    bloc.getProfileById(new InjectorLogin().login.uid);
     return new StreamBuilder(
       initialData: null,
-      stream: bloc.stream,
+      stream: _bloc.profileOut,
       builder: _getBody,
     );
   }
 
-  /// Gets the body to display.
-  Widget _getBody(BuildContext context, AsyncSnapshot<BlocProfileState> snap) {
-    if(snap != null && snap.data != null && snap.data.profiles.length > 0) {
-      return _getList(context, snap.data.profiles[0]);
-    } else {
-      return new Center(child: new CircularProgressIndicator());
-    }
-  }
+  Widget _getBody(BuildContext context, AsyncSnapshot<Profile> snap) {
+    debugPrint(snap.toString());
 
-  /// Gets the list that displays the given [Profile].
-  Widget _getList(BuildContext context, Profile profile) {
+    /// If the given profile is null, indicate that we are loading a profile.
+    if (!snap.hasData) {
+      return new Center(
+        child: new CircularProgressIndicator(),
+      );
+    }
+
+    Profile profile = snap.data;
+
     return new ListView(
       children: <Widget>[
         new Text(

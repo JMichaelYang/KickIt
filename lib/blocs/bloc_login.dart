@@ -8,7 +8,6 @@ import 'package:kickit/util/injectors/injector_login.dart';
 enum LoginState {
   WAITING,
   LOGGING_IN,
-  LOGGED_IN,
   ERROR,
 }
 
@@ -19,44 +18,46 @@ class BlocLogin implements BlocBase {
 
   /// A stream communicating the current state of the login attempt.
   StreamController<LoginState> _loginController =
-      new StreamController.broadcast<LoginState>();
+      new StreamController.broadcast();
 
   StreamSink<LoginState> get loginIn => _loginController.sink;
 
   Stream<LoginState> get loginOut => _loginController.stream;
 
-  /// Set up a new [BlocLogin] with an injected api and a default state.
-  BlocLogin() {
-    this.loginIn.add(LoginState.WAITING);
-  }
+  /// A stream communicating when a login attempt succeeds.
+  StreamController<bool> _loggedInController = new StreamController.broadcast();
+
+  StreamSink<bool> get _loggedInIn => _loggedInController.sink;
+
+  Stream<bool> get loggedInOut => _loggedInController.stream;
 
   /// Attempt to log the user in silently.
   void loginSilently() {
-    this.loginIn.add(LoginState.LOGGING_IN);
-    this._login.loginSilently().then(
+    loginIn.add(LoginState.LOGGING_IN);
+    _login.loginSilently().then(
       (success) {
         if (success) {
-          this.loginIn.add(LoginState.LOGGED_IN);
+          _loggedInIn.add(true);
         } else {
-          this.loginIn.add(LoginState.WAITING);
+          loginIn.add(LoginState.WAITING);
         }
       },
-      onError: () => this.loginIn.add(LoginState.ERROR),
+      onError: () => loginIn.add(LoginState.ERROR),
     );
   }
 
   /// Attempt to log the user in, presenting them with a dialog.
   void login() {
-    this.loginIn.add(LoginState.LOGGING_IN);
-    this._login.login().then(
+    loginIn.add(LoginState.LOGGING_IN);
+    _login.login().then(
       (success) {
         if (success) {
-          this.loginIn.add(LoginState.LOGGED_IN);
+          _loggedInIn.add(true);
         } else {
-          this.loginIn.add(LoginState.WAITING);
+          loginIn.add(LoginState.WAITING);
         }
       },
-      onError: () => this.loginIn.add(LoginState.ERROR),
+      onError: () => loginIn.add(LoginState.ERROR),
     );
   }
 
@@ -64,5 +65,6 @@ class BlocLogin implements BlocBase {
   @override
   void dispose() {
     _loginController.close();
+    _loggedInController.close();
   }
 }

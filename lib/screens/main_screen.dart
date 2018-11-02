@@ -1,13 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:kickit/screens/login_screen.dart';
+import 'package:kickit/apis/api_login.dart';
+import 'package:kickit/blocs/bloc_profile.dart';
+import 'package:kickit/blocs/bloc_provider.dart';
 import 'package:kickit/util/strings.dart';
 import 'package:kickit/widgets/profile_details_widget.dart';
-import 'package:kickit/widgets/profile_list_widget.dart';
 
 /// The main screen of the widget, holding three tabs that allow for navigation
 /// between three distinct pages.
-class MainScreen extends StatelessWidget {
+class MainScreen extends StatefulWidget {
+  /// Get the state that represents this screen.
+  @override
+  State<StatefulWidget> createState() {
+    return new _MainScreenState();
+  }
+}
+
+/// Manages state for the [MainScreen].
+class _MainScreenState extends State<MainScreen> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
   /// Builds the screen.
   @override
   Widget build(BuildContext context) {
@@ -36,12 +51,15 @@ class MainScreen extends StatelessWidget {
 
   /// Gets the body content for this screen.
   Widget _getBody(BuildContext context) {
-    return new TabBarView(
-      children: <Widget>[
-        new Icon(Icons.schedule),
-        new ProfileListWidget(),
-        new ProfileDetailsWidget(),
-      ],
+    return new BlocProvider(
+      bloc: new BlocProfile(),
+      child: new TabBarView(
+        children: <Widget>[
+          new Icon(Icons.schedule),
+          new Icon(Icons.list), // new ProfileListWidget(),
+          new ProfileDetailsWidget(new Login().uid),
+        ],
+      ),
     );
   }
 

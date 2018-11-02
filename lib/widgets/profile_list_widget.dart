@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:kickit/blocs/bloc_profile.dart';
+import 'package:kickit/blocs/bloc_user.dart';
 import 'package:kickit/blocs/bloc_provider.dart';
 import 'package:kickit/widgets/profile_card_widget.dart';
-
+/*
 /// A widget that displays a list of [Profile] objects.
 class ProfileListWidget extends StatelessWidget {
   /// Builds the list of [Profile] objects to display.
   @override
   Widget build(BuildContext context) {
-    BlocUserProfile bloc = BlocProvider.of<BlocUserProfile>(context);
+    BlocUser bloc = BlocProvider.of<BlocUser>(context);
     bloc.getAllProfiles();
 
     return new StreamBuilder(
@@ -32,3 +32,4 @@ class ProfileListWidget extends StatelessWidget {
     );
   }
 }
+*/
