@@ -10,8 +10,8 @@ class ProfileDetailsWidget extends StatelessWidget {
   /// Builds a scrollable list of information regarding this [Profile].
   @override
   Widget build(BuildContext context) {
-    BlocProfile bloc = BlocProvider.of<BlocProfile>(context);
-    bloc.getProfileById(new InjectorLogin().login.getUid());
+    BlocUserProfile bloc = BlocProvider.of<BlocUserProfile>(context);
+    bloc.getProfileById(new InjectorLogin().login.uid);
     return new StreamBuilder(
       initialData: null,
       stream: bloc.stream,

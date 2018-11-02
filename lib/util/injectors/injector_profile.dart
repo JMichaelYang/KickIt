@@ -15,9 +15,7 @@ class InjectorProfile {
   static ProfileFlavor _flavor;
 
   /// Internal constructor for the default value.
-  InjectorProfile._internal() {
-    _flavor = ProfileFlavor.LOCAL;
-  }
+  InjectorProfile._internal();
 
   /// Returns the current instance of [InjectorProfile].
   factory InjectorProfile() {

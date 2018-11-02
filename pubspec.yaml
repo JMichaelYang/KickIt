@@ -17,7 +17,7 @@ dependencies:
     sdk: flutter
 
   google_sign_in: any
-  googleapis: any
+  cloud_firestore: any
   meta: any
 
 dev_dependencies:

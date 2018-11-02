@@ -3,21 +3,9 @@ import 'dart:async';
 import 'package:flutter/widgets.dart';
 
 /// Abstract BLoC base class to be extended by any BLoC.
-abstract class BlocBase<T> {
-  /// The current state of the BLoC.
-  @protected
-  T state;
-
-  /// A [StreamController] that streams the state of the current BLoC.
-  @protected
-  final StreamController<T> controller = StreamController.broadcast<T>();
-
-  Stream<T> get stream => controller.stream;
-
+abstract class BlocBase {
   /// Disposes the resources for this BLoC.
-  void dispose() {
-    controller.close();
-  }
+  void dispose();
 }
 
 /// Generic BLoC provider for any information BLoC.
@@ -33,7 +21,8 @@ class BlocProvider<T extends BlocBase> extends StatefulWidget {
     Key key,
     @required T bloc,
     @required Widget child,
-  })  : this._bloc = bloc,
+  })
+      : this._bloc = bloc,
         this._child = child,
         super(key: key);
 

@@ -15,9 +15,7 @@ class InjectorLogin {
   static LoginFlavor _flavor;
 
   /// Internal constructor for the default value.
-  InjectorLogin._internal() {
-    _flavor = LoginFlavor.LOCAL;
-  }
+  InjectorLogin._internal();
 
   /// Returns the current instance of [InjectorLogin].
   factory InjectorLogin() {

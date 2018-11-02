@@ -1,11 +1,13 @@
 import 'dart:async';
 
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:kickit/apis/firestore/firestore_profile.dart';
+import 'package:kickit/data/profile.dart';
 
 /// Base class for a login handler.
 abstract class LoginBase {
   /// Gets the uid of the currently logged in user.
-  String getUid();
+  String get uid;
 
   /// Attempts to log the user in silently.
   Future<bool> loginSilently();
@@ -32,10 +34,11 @@ class Login extends LoginBase {
     return _instance;
   }
 
+  /// Gets the current user.
+  GoogleSignInAccount get _user => this._signIn?.currentUser;
+
   /// Gets the uid of the currently logged in user.
-  String getUid() {
-    return this._signIn?.currentUser?.id;
-  }
+  String get uid => this._signIn?.currentUser?.id;
 
   /// Attempts to log the user in silently.
   Future<bool> loginSilently() async {
@@ -46,6 +49,7 @@ class Login extends LoginBase {
     }
 
     if (await this._signIn.isSignedIn()) {
+      await this._loadProfile();
       return true;
     }
 
@@ -61,23 +65,55 @@ class Login extends LoginBase {
     }
 
     if (await this._signIn.isSignedIn()) {
+      await this._loadProfile();
       return true;
     }
 
     return false;
+  }
+
+  /// After loading a [Profile], either save it if it is a new one or update
+  /// its information from the [GoogleSignIn].
+  Future<Null> _loadProfile() async {
+    Profile profile = await FirestoreProfile.getProfileById(this.uid);
+
+    if (profile != null) {
+      profile = this._profileFromGoogleSignInWithData(profile);
+    } else {
+      profile = this._profileFromGoogleSignIn();
+    }
+
+    FirestoreProfile.saveProfile(profile);
+  }
+
+  /// Generates a new [Profile] from [_signIn] with some data taken from the
+  /// provided [Profile].
+  Profile _profileFromGoogleSignInWithData(Profile profile) {
+    return new Profile(
+      profile.uid,
+      this._user.displayName,
+      profile.intro,
+    );
+  }
+
+  /// Generates a new [Profile] from [_signIn].
+  Profile _profileFromGoogleSignIn() {
+    return new Profile(
+      this.uid,
+      this._user.displayName,
+      "",
+    );
   }
 }
 
 /// Mock login that logs in after two seconds and always returns the same uid.
 class LoginMock extends LoginBase {
   /// A predetermined uid.
-  static const String uid = "00001";
+  static const String id = "00001";
 
-  /// Gets the predetermined [uid].
+  /// Gets the predetermined [id].
   @override
-  String getUid() {
-    return uid;
-  }
+  String get uid => id;
 
   /// Logs the user in after two seconds.
   @override

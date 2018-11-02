@@ -9,7 +9,7 @@ class ProfileListWidget extends StatelessWidget {
   /// Builds the list of [Profile] objects to display.
   @override
   Widget build(BuildContext context) {
-    BlocProfile bloc = BlocProvider.of<BlocProfile>(context);
+    BlocUserProfile bloc = BlocProvider.of<BlocUserProfile>(context);
     bloc.getAllProfiles();
 
     return new StreamBuilder(
