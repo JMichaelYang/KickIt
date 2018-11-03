@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:kickit/util/strings.dart';
+import 'package:meta/meta.dart';
 
 /// A generic error dialog.
 class ErrorDialog extends AlertDialog {

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:kickit/apis/api_login.dart';
+import 'package:kickit/blocs/bloc_login.dart';
 import 'package:kickit/blocs/bloc_profile.dart';
 import 'package:kickit/blocs/bloc_profile_list.dart';
 import 'package:kickit/blocs/bloc_provider.dart';
@@ -59,7 +60,10 @@ class _MainScreenState extends State<MainScreen> {
       icon: new Icon(Icons.settings),
       onPressed: () => Navigator.of(context).push(
             new MaterialPageRoute(
-              builder: (BuildContext context) => new SettingsScreen(),
+              builder: (BuildContext context) => new BlocProvider(
+                    bloc: new BlocLogin(),
+                    child: new SettingsScreen(),
+                  ),
             ),
           ),
     );

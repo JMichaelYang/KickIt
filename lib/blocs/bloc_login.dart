@@ -46,7 +46,7 @@ class BlocLogin implements BlocBase {
     );
   }
 
-  /// Attempt to log the user in, presenting them with a dialog.
+  /// Attempt to log the user in, showing them a login dialog.
   void login() {
     loginIn.add(LoginState.LOGGING_IN);
     _login.login().then(
@@ -59,6 +59,11 @@ class BlocLogin implements BlocBase {
       },
       onError: () => loginIn.add(LoginState.ERROR),
     );
+  }
+
+  /// Log the user out.
+  Future<bool> logout() async {
+    return await _login.logout();
   }
 
   /// Dispose the resources allocated by this bloc.

@@ -14,6 +14,9 @@ abstract class LoginBase {
 
   /// Attempts to log the user in with a popup window.
   Future<bool> login();
+
+  /// Try to log out of the currently signed in account.
+  Future<bool> logout();
 }
 
 /// Google login api handler.
@@ -72,6 +75,22 @@ class Login extends LoginBase {
     return false;
   }
 
+  /// Try to log out of the currently signed in account.
+  Future<bool> logout() async {
+    if (!await this._signIn.isSignedIn()) {
+      return false;
+    }
+
+    bool signedOut = false;
+
+    await this._signIn.signOut().then(
+          (GoogleSignInAccount account) => signedOut = true,
+          onError: () => signedOut = false,
+        );
+
+    return signedOut;
+  }
+
   /// After loading a [Profile], either save it if it is a new one or update
   /// its information from the [GoogleSignIn].
   Future<Null> _loadProfile() async {
@@ -124,6 +143,12 @@ class LoginMock extends LoginBase {
   /// Logs the user in after two seconds.
   @override
   Future<bool> loginSilently() {
+    return Future.delayed(new Duration(seconds: 2), () => Future.value(true));
+  }
+
+  /// Try to log out of the currently signed in account.
+  @override
+  Future<bool> logout() {
     return Future.delayed(new Duration(seconds: 2), () => Future.value(true));
   }
 }

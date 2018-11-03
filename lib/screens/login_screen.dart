@@ -4,7 +4,7 @@ import 'package:kickit/blocs/bloc_login.dart';
 import 'package:kickit/blocs/bloc_provider.dart';
 import 'package:kickit/screens/main_screen.dart';
 import 'package:kickit/util/strings.dart';
-import 'package:kickit/widgets/error_dialog.dart';
+import 'package:kickit/widgets/dialogs.dart';
 
 /// A screen where the user can log in to their account.
 class LoginScreen extends StatefulWidget {
@@ -95,7 +95,10 @@ class _LoginScreenState extends State<LoginScreen> {
   void _pushMain(BuildContext context) {
     Navigator.of(context).pushReplacement(
       new MaterialPageRoute(
-        builder: (context) => new MainScreen(),
+        builder: (context) => new BlocProvider(
+              bloc: new BlocLogin(),
+              child: new MainScreen(),
+            ),
       ),
     );
   }
