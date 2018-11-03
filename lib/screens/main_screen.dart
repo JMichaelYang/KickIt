@@ -6,6 +6,7 @@ import 'package:kickit/blocs/bloc_profile.dart';
 import 'package:kickit/blocs/bloc_profile_list.dart';
 import 'package:kickit/blocs/bloc_provider.dart';
 import 'package:kickit/screens/settings_screen.dart';
+import 'package:kickit/util/injectors/injector_login.dart';
 import 'package:kickit/util/strings.dart';
 import 'package:kickit/widgets/profile_details_widget.dart';
 import 'package:kickit/widgets/profile_list_widget.dart';
@@ -79,7 +80,7 @@ class _MainScreenState extends State<MainScreen> {
           children: <Widget>[
             new Icon(Icons.schedule),
             new ProfileListWidget(), // new ProfileListWidget(),
-            new ProfileDetailsWidget(new Login().uid),
+            new ProfileDetailsWidget(new InjectorLogin().login.uid),
           ],
         ),
       ),

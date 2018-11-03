@@ -46,7 +46,7 @@ class ApiProfileMock extends ApiProfileBase {
         _profiles.firstWhere((Profile profile) => profile.uid == uid),
       );
     } catch (error) {
-      throw new RangeError("Could not find a profile with the given uid.");
+      throw new RangeError("Could not find a profile with the given uid");
     }
   }
 

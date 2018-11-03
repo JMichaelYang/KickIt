@@ -7,7 +7,7 @@ import 'package:kickit/screens/login_screen.dart';
 import 'package:kickit/util/injectors/injector_login.dart';
 import 'package:kickit/util/injectors/injector_profile.dart';
 import 'package:kickit/util/strings.dart';
-import 'package:kickit/widgets/themes.dart';
+import 'package:kickit/util/themes.dart';
 
 void main() async {
   // Firestore configuration.
@@ -37,7 +37,7 @@ class KickItApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return new MaterialApp(
       title: APP_TITLE,
-      theme: dark,
+      theme: ThemeData.light(),
       home: new BlocProvider<BlocLogin>(
         bloc: new BlocLogin(),
         child: new LoginScreen(),

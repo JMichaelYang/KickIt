@@ -38,7 +38,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return new Center(
       child: new StreamBuilder(
-        initialData: LoginState.WAITING,
+        initialData: LoginState.LOGGING_IN,
         stream: this._bloc.loginOut,
         builder: _getBody,
       ),
