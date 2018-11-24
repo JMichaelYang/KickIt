@@ -12,3 +12,7 @@ const String LOGIN_ERROR_MESSAGE =
 const String LOGOUT_ERROR_TITLE = "Error logging out";
 const String LOGOUT_ERROR_MESSAGE =
     "There was an error logging out. Please try again.";
+
+// Profile list screen.
+const String NO_FRIENDS =
+    "No friends yet. Add some with the button on the bottom right!";

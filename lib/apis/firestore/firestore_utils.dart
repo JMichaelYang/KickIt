@@ -1,5 +1,7 @@
 // Path to user collection.
 const String USER_PATH = "users";
+// Path to relationship collection.
+const String RELATIONSHIP_PATH = "relationships";
 
 /// An [Error] thrown when a [Firestore] transaction fails.
 class DatabaseError extends Error {

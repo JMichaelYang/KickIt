@@ -1,15 +1,22 @@
 import 'dart:async';
 
 import 'package:kickit/apis/api_profile.dart';
-import 'package:kickit/apis/firestore/firestore_utils.dart';
+import 'package:kickit/apis/api_relationship.dart';
 import 'package:kickit/blocs/bloc_provider.dart';
 import 'package:kickit/data/profile.dart';
 import 'package:kickit/util/injectors/injector_profile.dart';
+import 'package:kickit/util/injectors/injector_relationship.dart';
 
 /// A bloc that handles multiple profile's data.
 class BlocProfileList extends BlocBase {
   /// The profile api to use.
-  final ApiProfileBase _api = new InjectorProfile().profileApi;
+  final ApiRelationshipBase _apiRelationship;
+  final ApiProfileBase _apiProfile;
+
+  /// Initializes the value of the api for this bloc.
+  BlocProfileList()
+      : _apiRelationship = new InjectorRelationship().relationshipApi,
+        _apiProfile = new InjectorProfile().profileApi;
 
   /// A stream providing the user's [Profile] data.
   StreamController<List<Profile>> _profilesController =
@@ -19,15 +26,18 @@ class BlocProfileList extends BlocBase {
 
   Stream<List<Profile>> get profilesOut => _profilesController.stream;
 
-  /// Request all of the profiles.
-  void requestAllProfiles() {
-    _api.getAllProfiles().then(
-      (List<Profile> profiles) {
-        _profilesIn.add(profiles);
+  /// Request all of the friends of user with the given [uid].
+  void requestAllFriends(String uid) {
+    _apiRelationship.getAllFriends(uid).listen(
+      (List<String> uids) {
+        if (uids == null) {
+          _profilesIn.add(new List<Profile>());
+        } else {
+          Iterable<Future<Profile>> profiles =
+              uids.map((uid) => _apiProfile.getProfileById(uid).first);
+          Future.wait(profiles).then((profiles) => _profilesIn.add(profiles));
+        }
       },
-      onError: () => throw new DatabaseError(
-            message: "Failed to get profile information from the database",
-          ),
     );
   }
 

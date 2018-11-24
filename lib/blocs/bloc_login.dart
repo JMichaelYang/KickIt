@@ -3,43 +3,64 @@ import 'dart:async';
 import 'package:kickit/apis/api_login.dart';
 import 'package:kickit/blocs/bloc_provider.dart';
 import 'package:kickit/util/injectors/injector_login.dart';
+import 'package:rxdart/subjects.dart';
 
 /// An enumerator representing the state of a login attempt.
 enum LoginState {
-  WAITING,
+  LOGGING_OUT,
+  LOGGED_OUT,
+  LOGGING_IN_SILENTLY,
+  LOGGED_OUT_SILENT,
   LOGGING_IN,
+  LOGGED_IN,
   ERROR,
 }
 
 /// A bloc that handles logging in to the app.
 class BlocLogin implements BlocBase {
   /// The login api to use.
-  final LoginBase _login = new InjectorLogin().login;
+  final LoginBase _login;
 
   /// A stream communicating the current state of the login attempt.
-  StreamController<LoginState> _loginController =
-      new StreamController.broadcast();
+  BehaviorSubject<LoginState> _loginController = new BehaviorSubject(
+    seedValue: LoginState.LOGGED_OUT,
+  );
 
   StreamSink<LoginState> get loginIn => _loginController.sink;
 
   Stream<LoginState> get loginOut => _loginController.stream;
 
-  /// A stream communicating when a login attempt succeeds.
-  StreamController<bool> _loggedInController = new StreamController.broadcast();
+  /// Initializes the value of the login api to use.
+  BlocLogin() : _login = new InjectorLogin().login {
+    _loginController.stream.listen(_onData);
+  }
 
-  StreamSink<bool> get _loggedInIn => _loggedInController.sink;
-
-  Stream<bool> get loggedInOut => _loggedInController.stream;
+  /// Handles data events passed from the widgets that use this bloc.
+  void _onData(LoginState state) {
+    switch (state) {
+      case LoginState.LOGGING_OUT:
+        _logout();
+        break;
+      case LoginState.LOGGING_IN_SILENTLY:
+        _loginSilently();
+        break;
+      case LoginState.LOGGING_IN:
+        _loginAwake();
+        break;
+      default:
+        // On logged in, logged out, or error, nothing should happen.
+        break;
+    }
+  }
 
   /// Attempt to log the user in silently.
-  void loginSilently() {
-    loginIn.add(LoginState.LOGGING_IN);
+  void _loginSilently() {
     _login.loginSilently().then(
       (success) {
         if (success) {
-          _loggedInIn.add(true);
+          loginIn.add(LoginState.LOGGED_IN);
         } else {
-          loginIn.add(LoginState.WAITING);
+          loginIn.add(LoginState.LOGGED_OUT_SILENT);
         }
       },
       onError: () => loginIn.add(LoginState.ERROR),
@@ -47,14 +68,13 @@ class BlocLogin implements BlocBase {
   }
 
   /// Attempt to log the user in, showing them a login dialog.
-  void login() {
-    loginIn.add(LoginState.LOGGING_IN);
+  void _loginAwake() {
     _login.login().then(
       (success) {
         if (success) {
-          _loggedInIn.add(true);
+          loginIn.add(LoginState.LOGGED_IN);
         } else {
-          loginIn.add(LoginState.WAITING);
+          loginIn.add(LoginState.LOGGED_OUT);
         }
       },
       onError: () => loginIn.add(LoginState.ERROR),
@@ -62,14 +82,22 @@ class BlocLogin implements BlocBase {
   }
 
   /// Log the user out.
-  Future<bool> logout() async {
-    return await _login.logout();
+  void _logout() {
+    _login.logout().then(
+      (success) {
+        if (success) {
+          loginIn.add(LoginState.LOGGED_OUT);
+        } else {
+          loginIn.add(LoginState.LOGGED_IN);
+        }
+      },
+      onError: () => loginIn.add(LoginState.ERROR),
+    );
   }
 
   /// Dispose the resources allocated by this bloc.
   @override
   void dispose() {
     _loginController.close();
-    _loggedInController.close();
   }
 }

@@ -5,17 +5,18 @@ import 'package:kickit/data/profile.dart';
 /// A class that stores methods to interact with [Firestore].
 abstract class FirestoreProfile {
   /// Gets a [Profile] from the [Firestore] database based on the given [uid].
-  static Future<Profile> getProfileById(String uid) async {
+  static Stream<Profile> getProfileById(String uid) {
     DocumentReference ref =
         Firestore.instance?.collection(USER_PATH)?.document(uid);
 
     if (ref != null) {
-      DocumentSnapshot snap = await ref.get();
-      if (snap != null && snap.data != null) {
-        return new Profile.fromJson(snap.data);
-      } else {
-        return null;
-      }
+      return ref.snapshots().map<Profile>((DocumentSnapshot snap) {
+        if (snap != null && snap.data != null) {
+          return new Profile.fromJson(snap.data);
+        } else {
+          return null;
+        }
+      });
     } else {
       throw new DatabaseError(message: "Failed to find the user collection");
     }

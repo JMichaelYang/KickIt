@@ -78,7 +78,7 @@ class Login extends LoginBase {
   /// Try to log out of the currently signed in account.
   Future<bool> logout() async {
     if (!await this._signIn.isSignedIn()) {
-      return false;
+      return true;
     }
 
     bool signedOut = false;
@@ -94,7 +94,7 @@ class Login extends LoginBase {
   /// After loading a [Profile], either save it if it is a new one or update
   /// its information from the [GoogleSignIn].
   Future<Null> _loadProfile() async {
-    Profile profile = await FirestoreProfile.getProfileById(this.uid);
+    Profile profile = await FirestoreProfile.getProfileById(this.uid).first;
 
     if (profile != null) {
       profile = this._profileFromGoogleSignInWithData(profile);

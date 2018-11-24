@@ -19,34 +19,61 @@ class SettingsScreen extends StatelessWidget {
         ),
       ),
       body: new Center(
-        child: new IconButton(
-          icon: new Icon(Icons.exit_to_app),
-          onPressed: () => _logout(context, loginBloc),
-        ),
+        child: _logout(context),
       ),
     );
   }
 
-  void _logout(BuildContext context, BlocLogin login) async {
-    if (await login.logout()) {
-      Navigator.of(context).pushReplacement(
-        new MaterialPageRoute(
-          builder: (BuildContext context) => new BlocProvider<BlocLogin>(
-                bloc: new BlocLogin(),
-                child: new LoginScreen(),
-              ),
-        ),
-      );
-    } else {
-      showDialog(
-        context: context,
-        builder: (BuildContext context) => new ErrorDialog(
-              label: LOGOUT_ERROR_TITLE,
-              body: LOGOUT_ERROR_MESSAGE,
-              press: () => Navigator.of(context).pop(),
+  /// A widget that allows the user to log out of the application.
+  Widget _logout(BuildContext context) {
+    final BlocLogin bloc = BlocProvider.of<BlocLogin>(context);
+    bloc.loginOut.listen((LoginState state) {
+      if (state == LoginState.LOGGED_OUT) {
+        _pushLogin(context);
+      }
+    });
+
+    return new StreamBuilder(
+      stream: bloc.loginOut,
+      builder: (BuildContext context, AsyncSnapshot<LoginState> state) {
+        if (state == null || !state.hasData) {
+          return new CircularProgressIndicator();
+        }
+
+        switch (state.data) {
+          case LoginState.LOGGED_IN:
+            return new IconButton(
+              icon: new Icon(Icons.exit_to_app),
+              onPressed: () => bloc.loginIn.add(LoginState.LOGGING_OUT),
+            );
+            break;
+          case LoginState.ERROR:
+            showDialog(
               context: context,
-            ),
-      );
-    }
+              builder: (BuildContext context) => new ErrorDialog(
+                    label: LOGOUT_ERROR_TITLE,
+                    body: LOGOUT_ERROR_MESSAGE,
+                    press: () => Navigator.of(context).pop(),
+                    context: context,
+                  ),
+            );
+            return new CircularProgressIndicator();
+            break;
+          default:
+            return new CircularProgressIndicator();
+            break;
+        }
+      },
+    );
+  }
+
+  /// Navigate to the login screen.
+  void _pushLogin(BuildContext context) {
+    Navigator.of(context).pushAndRemoveUntil(
+      new MaterialPageRoute(
+        builder: (BuildContext context) => new LoginScreen(),
+      ),
+      (Route route) => false,
+    );
   }
 }
