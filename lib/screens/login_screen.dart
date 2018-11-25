@@ -34,7 +34,7 @@ class LoginScreen extends StatelessWidget {
     AsyncSnapshot<LoginState> state,
     BlocLogin bloc,
   ) {
-    if (state.data == null || !state.hasData) {
+    if (state.data == null || !state.hasData || state.data == null) {
       return _getLoading(context);
     }
 

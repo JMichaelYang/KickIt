@@ -22,7 +22,7 @@ class BlocLogin implements BlocBase {
   final LoginBase _login;
 
   /// A stream communicating the current state of the login attempt.
-  BehaviorSubject<LoginState> _loginController = new BehaviorSubject(
+  final BehaviorSubject<LoginState> _loginController = new BehaviorSubject(
     seedValue: LoginState.LOGGED_OUT,
   );
 

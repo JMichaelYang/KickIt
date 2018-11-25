@@ -31,7 +31,7 @@ class ProfileDetailsWidget extends StatelessWidget {
   /// Gets the body of information to be presented
   Widget _getBody(BuildContext context, AsyncSnapshot<Profile> snap) {
     /// If the given profile is null, indicate that we are loading a profile.
-    if (!snap.hasData) {
+    if (snap == null || !snap.hasData || snap.data == null) {
       return new Center(
         child: new CircularProgressIndicator(),
       );

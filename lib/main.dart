@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:kickit/blocs/bloc_login.dart';
-import 'package:kickit/blocs/bloc_profile_list.dart';
 import 'package:kickit/blocs/bloc_provider.dart';
 import 'package:kickit/screens/login_screen.dart';
 import 'package:kickit/util/injectors/injector_login.dart';
@@ -39,13 +38,10 @@ class KickItApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return new BlocProvider<BlocLogin>(
       bloc: new BlocLogin(),
-      child: new BlocProvider<BlocProfileList>(
-        bloc: new BlocProfileList(),
-        child: new MaterialApp(
-          title: APP_TITLE,
-          theme: ThemeData.dark(),
-          home: new LoginScreen(),
-        ),
+      child: new MaterialApp(
+        title: APP_TITLE,
+        theme: ThemeData.dark(),
+        home: new LoginScreen(),
       ),
     );
   }

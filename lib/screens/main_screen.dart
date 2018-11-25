@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:kickit/blocs/bloc_profile_list.dart';
-import 'package:kickit/blocs/bloc_provider.dart';
 import 'package:kickit/screens/settings_screen.dart';
 import 'package:kickit/util/injectors/injector_login.dart';
 import 'package:kickit/util/strings.dart';
@@ -10,27 +8,7 @@ import 'package:kickit/widgets/profile_list_widget.dart';
 
 /// The main screen of the app, holding three tabs that allow for navigation
 /// between three distinct pages.
-class MainScreen extends StatefulWidget {
-  /// Get the state that represents this screen.
-  @override
-  State<StatefulWidget> createState() {
-    return new _MainScreenState();
-  }
-}
-
-/// Manages state for the [MainScreen].
-class _MainScreenState extends State<MainScreen> {
-  BlocProfileList _profilesBloc;
-
-  /// Gets bloc references and performs some initial requests.
-  @override
-  void initState() {
-    _profilesBloc = BlocProvider.of<BlocProfileList>(context);
-    _profilesBloc.requestAllFriends(new InjectorLogin().login.uid);
-    super.initState();
-  }
-
-  /// Builds the screen.
+class MainScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new DefaultTabController(
@@ -71,11 +49,13 @@ class _MainScreenState extends State<MainScreen> {
 
   /// Gets the body content for this screen.
   Widget _getBody(BuildContext context) {
+    String uid = new InjectorLogin().login.uid;
+
     return new TabBarView(
       children: <Widget>[
         new Icon(Icons.schedule),
-        new ProfileListWidget(_profilesBloc.profilesOut),
-        profileDetailsWrapper(new InjectorLogin().login.uid),
+        profileListFriendsWrapper(uid),
+        profileDetailsWrapper(uid),
       ],
     );
   }

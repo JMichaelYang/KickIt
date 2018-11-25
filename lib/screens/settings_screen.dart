@@ -9,8 +9,6 @@ import 'package:kickit/widgets/dialogs.dart';
 class SettingsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    BlocLogin loginBloc = BlocProvider.of<BlocLogin>(context);
-
     return new Scaffold(
       appBar: new AppBar(
         centerTitle: true,
@@ -36,7 +34,7 @@ class SettingsScreen extends StatelessWidget {
     return new StreamBuilder(
       stream: bloc.loginOut,
       builder: (BuildContext context, AsyncSnapshot<LoginState> state) {
-        if (state == null || !state.hasData) {
+        if (state == null || !state.hasData || state.data == null) {
           return new CircularProgressIndicator();
         }
 

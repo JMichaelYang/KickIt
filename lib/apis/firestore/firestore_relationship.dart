@@ -18,28 +18,18 @@ abstract class FirestoreRelationship {
         ?.where(Relationship.requesteeIdKey, isEqualTo: uid)
         ?.where(Relationship.statusKey, isEqualTo: 0);
 
-    Stream<List<String>> requesterStream =
-    requester.snapshots().map<List<String>>(
-          (QuerySnapshot snap) {
-        snap.documents.map(
-                (DocumentSnapshot doc) =>
-            doc.data[Relationship.requesteeIdKey]);
-      },
-    );
-
-    Stream<List<String>> requesteeStream =
-    requestee.snapshots().map<List<String>>(
-          (QuerySnapshot snap) {
-        snap.documents.map(
-                (DocumentSnapshot doc) =>
-            doc.data[Relationship.requesterIdKey]);
-      },
-    );
-
-    return StreamGroup.merge<List<String>>([
-      requesterStream,
-      requesteeStream,
+    // Merge the two queries.
+    Stream<QuerySnapshot> queries = StreamGroup.merge<QuerySnapshot>([
+      requester.snapshots(),
+      requestee.snapshots(),
     ]).asBroadcastStream();
+
+    // Return that combined queries.
+    return queries.map((QuerySnapshot snap) {
+      return snap.documents.map<String>(
+        (DocumentSnapshot doc) => doc.data[Relationship.requesterIdKey],
+      ).toList();
+    });
   }
 
   /// Gets the relationship between the [user] and [other].
@@ -69,7 +59,7 @@ abstract class FirestoreRelationship {
     QuerySnapshot snap = await cases.getDocuments();
 
     // If the query returns an empty or null list, return.
-    if (snap.documents == null || snap.documents.isEmpty) {
+    if (snap == null || snap.documents == null || snap.documents.isEmpty) {
       return null;
     }
 
