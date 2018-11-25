@@ -1,8 +1,11 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:kickit/blocs/bloc_login.dart';
 import 'package:kickit/blocs/bloc_provider.dart';
+import 'package:kickit/internal/keys.dart';
 import 'package:kickit/screens/login_screen.dart';
 import 'package:kickit/util/injectors/injector_login.dart';
 import 'package:kickit/util/injectors/injector_profile.dart';
@@ -13,11 +16,11 @@ void main() async {
   // Firestore configuration.
   final FirebaseApp app = await FirebaseApp.configure(
     name: "KickIt",
-    options: const FirebaseOptions(
-      googleAppID: "1:298546705448:android:75aba892aca49777",
-      gcmSenderID: "298546705448",
-      apiKey: "AIzaSyBtXdv8CM5klr-eXqJxzt6SZoxlL7jt41U",
-      projectID: "kickit-7821f",
+    options: new FirebaseOptions(
+      googleAppID: Platform.isAndroid ? googleAppID : iosAppID,
+      gcmSenderID: gcmSenderID,
+      apiKey: apiKey,
+      projectID: projectID,
     ),
   );
   final Firestore firestore = Firestore(app: app);

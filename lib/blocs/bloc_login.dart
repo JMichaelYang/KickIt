@@ -42,10 +42,10 @@ class BlocLogin implements BlocBase {
         _logout();
         break;
       case LoginState.LOGGING_IN_SILENTLY:
-        _loginSilently();
+        _doLogin(silently: true);
         break;
       case LoginState.LOGGING_IN:
-        _loginAwake();
+        _doLogin(silently: false);
         break;
       default:
         // On logged in, logged out, or error, nothing should happen.
@@ -54,27 +54,14 @@ class BlocLogin implements BlocBase {
   }
 
   /// Attempt to log the user in silently.
-  void _loginSilently() {
-    _login.loginSilently().then(
+  void _doLogin({bool silently = false}) {
+    _login.login(silently: silently).then(
       (success) {
         if (success) {
           loginIn.add(LoginState.LOGGED_IN);
         } else {
-          loginIn.add(LoginState.LOGGED_OUT_SILENT);
-        }
-      },
-      onError: () => loginIn.add(LoginState.ERROR),
-    );
-  }
-
-  /// Attempt to log the user in, showing them a login dialog.
-  void _loginAwake() {
-    _login.login().then(
-      (success) {
-        if (success) {
-          loginIn.add(LoginState.LOGGED_IN);
-        } else {
-          loginIn.add(LoginState.LOGGED_OUT);
+          loginIn.add(
+              silently ? LoginState.LOGGED_OUT_SILENT : LoginState.LOGGED_OUT);
         }
       },
       onError: () => loginIn.add(LoginState.ERROR),

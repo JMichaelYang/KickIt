@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:kickit/screens/friends_list_screen.dart';
 import 'package:kickit/screens/settings_screen.dart';
 import 'package:kickit/util/injectors/injector_login.dart';
 import 'package:kickit/util/strings.dart';
 import 'package:kickit/widgets/profile_details_widget.dart';
-import 'package:kickit/widgets/profile_list_widget.dart';
 
 /// The main screen of the app, holding three tabs that allow for navigation
 /// between three distinct pages.
@@ -49,13 +49,11 @@ class MainScreen extends StatelessWidget {
 
   /// Gets the body content for this screen.
   Widget _getBody(BuildContext context) {
-    String uid = new InjectorLogin().login.uid;
-
     return new TabBarView(
       children: <Widget>[
         new Icon(Icons.schedule),
-        profileListFriendsWrapper(uid),
-        profileDetailsWrapper(uid),
+        new FriendsListScreen(),
+        profileDetailsWrapper(new InjectorLogin().login.uid),
       ],
     );
   }
