@@ -8,7 +8,7 @@ build/
 
 .flutter-plugins
 
-android/app/src/google-services.json
+android/app/google-services.json
 lib/internal/
 
 .idea/
